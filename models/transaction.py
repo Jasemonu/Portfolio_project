@@ -2,25 +2,27 @@
 """transaction module"""
 
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String, Foreignkey
+from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import relationship
+from sqlalchemy import DateTime
+from datetime import datetime
 
 
 class Transaction(BaseModel, Base):
-    __tablenaame__ = "transactions"
-    user_id = Column(String(120), Foreignkey('user.id'))
-    wallet_id = Column(String(120), Foreignkey('wallet.id'))
+    __tablename__ = "transactions"
+    user_id = Column(String(120), ForeignKey('users.id'))
+    wallet_id = Column(String(120), ForeignKey('wallets.id'))
     recipient_name = Column(String(120))
-    recipient_account = Column(Integer(120))
+    recipient_account = Column(Integer)
     amount = Column(Float)
     transaction_type = Column(String(25))
     timestamp = Column(DateTime, default=datetime.utcnow)
     description = Column(String(120))
-    status = Column(String)
+    status = Column(String(20))
 
-    users = relationship("User", backref="transaction")
-    wallets = relationship("Wallet", backref="transaction")
+    users = relationship("User", back_populates="transactions", cascade='delete')
+    wallets = relationship("Wallet", back_populates="transactions", cascade='delete')
 
-    def __init__(self, *args, *kwargs):
+    def __init__(self, *args, **kwargs):
         """initializes transaction"""
-        super().__init__(*args, *kwargs)
+        super().__init__(*args, **kwargs)

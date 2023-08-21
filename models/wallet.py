@@ -1,23 +1,23 @@
 #!/usr/bin/python3
 """wallet module"""
-from models.base_models import BaseModel, Base
-from sqlalchemy import Column, Integer, String, Foreignkey
+from models.base_model import BaseModel, Base
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 
 class Wallet(BaseModel, Base):
     """creates wallet objects"""
-    __tablenaame__ = "wallets"
-    user_id = Column(Integer(120), Foreignkey("User.id"), nullable=False)
-    phone_number = Column(Interger(20), nullable=False)
-    pin = Column(Integer(4), nullable=False)
+    __tablename__ = "wallets"
+    user_id = Column(String(120), ForeignKey("users.id"), nullable=True)
+    phone_number = Column(Integer, nullable=False)
+    pin = Column(Integer, nullable=False)
     next_of_kin = Column(String(120))
     next_of_kin_relationnship = Column(String(120))
-    next_of_kin_number = Column(Integer(20))
+    next_of_kin_number = Column(Integer)
 
-    users = relationship("User", backref="wallets",
-                cascade="all, delete, delete-orphan")
+    users = relationship("User", back_populates="wallet")
+    transactions = relationship('Transaction', back_populates='wallets')
 
-    def __init__(self, *args, *kwargs):
+    def __init__(self, *args, **kwargs):
         """initializes wallet"""
-        super().__init__(*args, *kwargs)
+        super().__init__(*args, **kwargs)

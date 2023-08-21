@@ -35,18 +35,18 @@ class DBStorage:
 
     def __init__(self):
         """Instantiate a DBStorage object"""
-        TRANSHUB_USER = getenv('TRANSHUB_USER')
-        TRANSHUB_PWD = getenv('TRANSHUB_PWD')
-        TRANSHUB_HOST = getenv('TRANSHUB_HOST')
-        TRANSHUB_DB = getenv('TRANSHUB_DB')
-        TRANSHUB_ENV = getenv('TRANSHUB_ENV')
+        TRANSHUB_USER = 'root' #getenv('TRANSHUB_USER')
+        TRANSHUB_PWD =  'root' #getenv('TRANSHUB_PWD')
+        TRANSHUB_HOST = 'localhost' #getenv('TRANSHUB_HOST')
+        TRANSHUB_DB =  'transhub' #getenv('TRANSHUB_DB')
+        #TRANSHUB_ENV = getenv('TRANSHUB_ENV')
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(TRANSHUB_USER,
                                              TRANSHUB_PWD,
                                              TRANSHUB_HOST,
                                              TRANSHUB_DB))
-        if TRANSHUB_ENV == "test":
-            Base.metadata.drop_all(self.__engine)
+        #if TRANSHUB_ENV == "test":
+         #   Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """query on the current database session"""
