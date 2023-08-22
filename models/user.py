@@ -3,9 +3,10 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
+from flask_login import UserMixin
 
 
-class User(BaseModel, Base):
+class User(BaseModel, UserMixin, Base):
     """creates user objects"""
     __tablename__ = "users"
     first_name = Column(String(120), nullable=False)
