@@ -57,12 +57,50 @@
             <span class="close" id="closeSignupModal">&times;</span>
             <h2>Sign Up</h2>
             <form>
-                <label for="signupUsername">Username:</label>
-                <input type="text" id="signupUsername" name="signupUsername" required>
-                <label for="signupPassword">Password:</label>
-                <input type="password" id="signupPassword" name="signupPassword" required>
-                <button type="submit" class="signup-button">Sign Up</button>
-            </form>
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">First Name</span>
+                        <input type="text" id="signupFirstName" name="signupFirstName" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Last Name</span>
+                        <input type="text" id="signupLastName" name="signupLastName" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Email</span>
+                        <input type="email" id="signupEmail" name="signupEmail" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Phone Number</span>
+                        <input type="text" id="signupPhoneNumber" name="signupPhoneNumber" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Password</span>
+                        <input type="password" id="signupPassword" name="signupPassword" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Confirm Password</span>
+                        <input type="password" id="signupConfirmPassword" name="signupConfirmPassword" required>
+                    </div>
+                </div>
+                <div class="gender-details">
+                    <!-- ... (gender radio buttons) ... -->
+                    <span class="details">Gender</span>
+                    <div class="category">
+                        <div class="radio-option">
+                            <input type="radio" name="gender" id="male">
+                            <label for="male">Male</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="gender" id="female">
+                            <label for="female">Female</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="gender" id="other">
+                            <label for="other">Prefer not to say</label>
+                </div>
+                <div class="button">
+                    <button type="submit" class="signup-button">Register</button>
         </div>
     </div>
     <!-- Footer -->
