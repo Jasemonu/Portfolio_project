@@ -8,6 +8,9 @@ from flask_login import login_user, login_required, logout_user, current_user
 from api.v1.app import app, login_manager
 from werkzeug.security import check_password_hash
 
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+
 
 @app_views.route('/login', methods=['GET', 'POST'])
 def login():

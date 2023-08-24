@@ -1,19 +1,19 @@
 #!/usr/bin/python3
 """Script create a folder"""
 
-from flask import Flask, jsonify
-from models import storage
+from flask import Flask, jsonify, render_template
+# from models import storage
 from api.v1.views import app_views
-from flask_login import LoginManager
+# from flask_login import LoginManager
 
 
 app = Flask(__name__)
 """ A key to safely manage sessions for the flask app"""
-app.secret_key = "transhub_rosemary_joseph_samuel"
+# app.secret_key = "transhub_rosemary_joseph_samuel"
 
-login_manager = LoginManager(app)
+# login_manager = LoginManager(app)
 """The login_required decorator redirects here"""
-login_manager.login_view = 'login'
+# login_manager.login_view = 'login'
 
 app.register_blueprint(app_views)
 
@@ -23,14 +23,14 @@ def home():
     """
     Returns the home dashboard
     """
-    return ("Welcome to Transhub")
+    return render_template("landing_page.html")
 
-
+'''
 @app.teardown_appcontext
 def tear_down(exception):
     """method to handle teardown"""
     storage.close()
-
+'''
 
 @app.errorhandler(404)
 def not_found_error(error):
