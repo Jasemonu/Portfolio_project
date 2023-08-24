@@ -3,29 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Landing Page</title>
     <link rel="stylesheet" type="text/css" href="static/styles/landing_page.css">
+=======
+    <title>Transhub Gateway</title>
+    <link rel="stylesheet" type="text/css" href="styles/landing_page.css">
+>>>>>>> e353c700f974ab75e496254d00194f093d058c34
 </head>
 <body>
     <div class="navbar">
-        <a href="#">Login</a>
+        <a href="#" class="logo">TransHub</a>
+        <a href="#" class="login-button">Login</a>
         <a href="#">Sign Up</a>
         <a href="#">Contact Us</a>
         <a href="#">About</a>
-	<a href="#">Home</a>
+        <a href="#">Home</a>
     </div>
-    <div class="call-to-action">
-        <h1>
-	<span class="word2">WELCOME</span><span> TO TRANSHUB</span><br/>
-	<span class="word1">GATEWAY</span>
-	</h1>
-        <p>This platform is designed to facilitate financial transactions.</p>
-	<p>in various currencies, conveniently and securely.</p>
-    <div class="button-container">
-        <a href="#" class="login-button">Login</a>
-        <a href="#" class="signup-button">Sign Up</a>
-    </div>
-    </div>
-</body>
-</html>
+    <div class="layout-container">
+        <div class="call-to-action">
+            <h1>
+                <span class="word2">WELCOME</span><span> TO TRANSHUB</span><br/>
+                <span class="word1">GATEWAY</span>
+            </h1>
+            <p>This platform is designed to facilitate financial transactions.</p>
+            <p>in various currencies, conveniently and securely.</p>
+            <div class="button-container">
+                <a href="#" class="login-button">Login</a>
+                <a href="#" class="signup-button">Sign Up</a>
+            </div>
+        </div>
+        <aside class="exchange-rates">
+            <h2>Exchange Rates</h2>
+            <div class="exchange-rate">1 USD = 0.85 EUR</div>
+            <div class="exchange-rate">1 USD = 109.35 JPY</div>
+            <div class="exchange-rate">1 USD = 0.73 GBP</div>
+        </aside>
+    </div> 
 
+    <!-- Login Form Popup -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeLoginModal">&times;</span>
+            <h2>Login</h2>
+            <form action="" method="get">
+                <label for="username">Email:</label>
+                <input type="text" id="username" name="username" placeholder="Enter Your Email" autofocus required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter Your Password" autofocus required>
+                <button type="submit" class="login-button">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sign Up Form Popup -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeSignupModal">&times;</span>
+            <h2>Sign Up</h2>
+            <form>
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">First Name</span>
+                        <input type="text" id="signupFirstName" name="signupFirstName" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Last Name</span>
+                        <input type="text" id="signupLastName" name="signupLastName" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Email</span>
+                        <input type="email" id="signupEmail" name="signupEmail" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Phone Number</span>
+                        <input type="text" id="signupPhoneNumber" name="signupPhoneNumber" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Password</span>
+                        <input type="password" id="signupPassword" name="signupPassword" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Confirm Password</span>
+                        <input type="password" id="signupConfirmPassword" name="signupConfirmPassword" required>
+                    </div>
+                </div>
+                <div class="gender-details">
+                    <!-- ... (gender radio buttons) ... -->
+                    <span class="details">Gender</span>
+                    <div class="category">
+                        <div class="radio-option">
+                            <input type="radio" name="gender" id="male">
+                            <label for="male">Male</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="gender" id="female">
+                            <label for="female">Female</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="gender" id="other">
+                            <label for="other">Prefer not to say</label>
+                </div>
+                <div class="button">
+                    <button type="submit" class="signup-button">Register</button>
+        </div>
+    </div>
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2023 TransHub Gateway. All rights reserved.</p>
+    </div>
+    <script src="scripts/landing_page.js">    
+    </script>
+ </body>
+</html>
