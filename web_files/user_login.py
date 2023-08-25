@@ -45,22 +45,26 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-    """
-    The session searches for the email address of the user
-    to check if its in the database"""
-    user = storage.get(User, id="email")
+        """
+        The session searches for the email address of the user
+        to check if its in the database"""
+        user = storage.get(User, email=email)
+        print(user)
 
-    """
-    The user password is checked against the hashed password table
-    which was created during registration
-    """
-    if user is not None and user.password:
-        login_user(user)
-        storage.close()
-        return redirect(url_for('profile'))
+        """
+        The user password is checked against the hashed password table
+        which was created during registration
+        """
+        if user is not None and user.password:
+            login_user(user)
+            storage.close()
+            return render_template('homepage.html')
+        else:
+            storage.close()
+            return ("Invalid email or Password")
     else:
-        storage.close()
-        return ("Invalid email or Password")
+        # Return a response for GET requests
+        return render_template('user_login.html') 
 
 
 @app.route('/profile', methods=['GET'])
@@ -72,7 +76,7 @@ def profile():
        The login_required decorator ensures that the user is loggedin
     """
 
-    return render_template('profile.html', user=current_user)
+    return render_template('user_login.html', user=current_user)
 
 
 @app.route('/logout', methods=['GET'])
