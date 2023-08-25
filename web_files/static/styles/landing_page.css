@@ -175,6 +175,11 @@ form {
     flex-direction: column;
 }
 
+.sign {
+    height: 500px;
+    overflow-y: auto;
+}
+
 label {
     margin-top: 10px;
 }

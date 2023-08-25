@@ -75,12 +75,8 @@ class DBStorage:
             self.__session.delete(obj)
 
     def get(self, cls, email_address):
-        """Retrieve one object based on class and its ID
-        objects = cls.query.filter_by(email_address=email_address).first()
-        self.__session.close()"""
-        session = self.__session()
-        objects = session.query(cls).filter_by(email_address=email_address).first()
-        session.close()
+        """Retrieve one object based on class and its email"""
+        objects = self.__session.query(cls).filter_by(email_address=email_address).one()
         return objects if objects else None
 
     def count(self, cls=None):
