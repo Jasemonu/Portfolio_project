@@ -45,8 +45,10 @@ class DBStorage:
                                              TRANSHUB_PWD,
                                              TRANSHUB_HOST,
                                              TRANSHUB_DB))
-        #if TRANSHUB_ENV == "test":
-         #   Base.metadata.drop_all(self.__engine)
+        # if TRANSHUB_ENV == "test":
+        # Base.metadata.drop_all(self.__engine)
+        # self.__session = scoped_session(sessionmaker(bind=self.__engine))
+
 
     def all(self, cls=None):
         """query on the current database session"""
@@ -72,9 +74,13 @@ class DBStorage:
         if obj is not None:
             self.__session.delete(obj)
 
-    def get(self, cls, id):
-        """Retrieve one object based on class and its ID."""
-        objects = self.__session.query(cls).filter_by(id=id).one()
+    def get(self, cls, email_address):
+        """Retrieve one object based on class and its ID
+        objects = cls.query.filter_by(email_address=email_address).first()
+        self.__session.close()"""
+        session = self.__session()
+        objects = session.query(cls).filter_by(email_address=email_address).first()
+        session.close()
         return objects if objects else None
 
     def count(self, cls=None):

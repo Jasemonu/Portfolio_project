@@ -4,11 +4,12 @@ from models.user import User
 from models import storage
 from flask import abort,current_app, Flask, jsonify, render_template, redirect, url_for, request
 from flask_login import current_user, login_user, login_required, logout_user, LoginManager
-from werkzeug.security import check_password_hash
+# from werkzeug.security import check_password_hash
 
 
 app = Flask(__name__)
 
+app.secret_key = "transhub_rosemary_joseph_samuel"
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
@@ -28,11 +29,11 @@ def tear_down(exception):
 
 
 @login_manager.user_loader
-def load_user(user_id):
+def load_user(id):
     # Load and return the user object based on the user_id
     # This function is required by Flask-Login to retrieve users from the ID
     # It should return the user object or None if the user doesn't exist
-    return User.query.get(user_id)
+    return User.query.get(id)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -42,23 +43,24 @@ def login():
     after filling the html form
     """
     if request.method == 'POST':
-        email = request.form['email']
+        email_address = request.form['email']
         password = request.form['password']
 
         """
         The session searches for the email address of the user
         to check if its in the database"""
-        user = storage.get(User, email=email)
+        storage.reload()
+        user = storage.get(User, email_address)
         print(user)
 
         """
         The user password is checked against the hashed password table
         which was created during registration
         """
-        if user is not None and user.password:
+        if user is not None and user.password == password:
             login_user(user)
             storage.close()
-            return render_template('homepage.html')
+            return render_template('home_page.html')
         else:
             storage.close()
             return ("Invalid email or Password")
