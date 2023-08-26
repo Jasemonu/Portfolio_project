@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" type="text/css" href="static/styles/user_profile.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="#" class="logo">TransHub</a>
+        <a href="#">Logout</a>
+        <a href="#">Profile</a>
+        <a href="#">Settings</a>
+        <a href="#">Home</a>
+    </div>
+
+    <!-- User Profile Form -->
+    <div class="profile-form">
+        <h2>Edit Profile</h2>
+        <form action="#">
+            <div class="input-box">
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" name="first-name" value="Joseph" required>
+            </div>
+            <div class="input-box">
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" name="last-name" value="Asemonu" required>
+            </div>
+            <div class="input-box">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+            <div class="input-box">
+                <label for="gender">Sex</label>
+                <select id="gender" name="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="input-box">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" value="024-456-7890" required>
+            </div>
+            <div class="input-box">
+                <label for="address">Address</label>
+                <textarea id="address" name="address" rows="4" required>Your Address Here</textarea>
+            </div>
+            <div class="button">
+                <input type="submit" value="Save Changes">
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2023 Transhub Gateway. All rights reserved.</p>
+    </div>
+</body>
+</html>
+
