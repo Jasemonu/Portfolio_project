@@ -119,7 +119,7 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/create-wallet', methods=['POST'])
+@app.route('/create-wallet', methods=['POST'], strict_slashes=False)
 @login_required
 def create_wallet():
     """Retrieve data from the request"""
