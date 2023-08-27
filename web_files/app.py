@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ objects that handle all default RestFul API actions for user_login """
+from werkzeug.security import generate_password_hash, check_password_hash
 from models.user import User
 from models import storage
 from flask import abort,current_app, Flask, jsonify, render_template, redirect, url_for, request, flash
@@ -35,6 +36,12 @@ def home():
 @app.route('/signup', methods=["POST"], strict_slashes=False)
 def sign_up():
     """Sign user up """
+    users = storage.all(User)
+    for item in users.values():
+        if item.email_address == request.form.get('email_address'):
+            flash('Email already exists')
+            return redirect(url_for('index'))
+
     n_user = {
         'first_name': request.form.get('first_name'),
         'last_name': request.form.get('last_name'),
@@ -42,9 +49,13 @@ def sign_up():
         'phone_number': request.form.get('phone_number'),
         'gender': request.form.get('gender'),
         'address': request.form.get('address'),
-        'password': request.form.get('password')
+        'password': ''
         }
+
     if request.form.get('password') == request.form.get('confirm_password'):
+        get_password = request.form.get('password')
+        hashed_password = generate_password_hash(get_password, method='sha256')
+        n_user['password'] = hashed_password
         userObject = User(**n_user)
         storage.new(userObject)
         storage.save()
@@ -75,11 +86,10 @@ def login():
         """
         The session searches for the email address of the user
         to check if its in the database"""
-        storage.reload()
         user = storage.get(User, email_address)
-        print(user)
+        get_password = check_password_hash(user.password, password)
     
-        if user is None or user.password != password:
+        if user is None or get_password is None:
             storage.close()
             error_message = "Invalid email or password"
             return redirect(url_for('index', error=error_message))
@@ -131,7 +141,7 @@ def create_wallet():
 
     """Check if the same phone number is being used already"""
     storage.reload()
-    wallet = storage.get(Wallet, phone_number)
+    wallet = storage.wallet(Wallet, phone_number)
     if wallet:
         storage.close()
         flash('This phone number has already been used for a wallet')
@@ -143,7 +153,7 @@ def create_wallet():
             'next_of_kin_number': next_of_kin_number,
             'pin': pin,
         }
-        wallet = Wallet(new_wallet)
+        wallet = Wallet(**new_wallet)
         storage.new(wallet)
         storage.save()
 
