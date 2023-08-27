@@ -14,7 +14,7 @@ class Wallet(BaseModel, Base):
     next_of_kin = Column(String(120))
     next_of_kin_relationship = Column(String(120))
     next_of_kin_number = Column(Integer)
-    balance = Column(Integer, default=0)
+    balance = Column(Float, default=0.00)
     users = relationship("User", back_populates="wallet")
     transactions = relationship('Transaction', back_populates='wallets')
 
