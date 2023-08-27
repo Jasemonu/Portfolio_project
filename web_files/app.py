@@ -55,11 +55,11 @@ def sign_up():
 
 """ User Login Endpoint"""
 @login_manager.user_loader
-def load_user(id):
+def load_user(user_id):
     # Load and return the user object based on the user_id
     # This function is required by Flask-Login to retrieve users from the ID
     # It should return the user object or None if the user doesn't exist
-    return User.query.get(id)
+    return storage.get(User, user_id)
 
 
 @app.route('/login', methods=['POST'], strict_slashes=False)
