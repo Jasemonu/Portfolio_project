@@ -2,7 +2,7 @@
 """ objects that handle all default RestFul API actions for user_login """
 from models.user import User
 from models import storage
-from flask import abort,current_app, Flask, jsonify, render_template, redirect, url_for, request
+from flask import abort,current_app, Flask, jsonify, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_user, login_required, logout_user, LoginManager
 # from werkzeug.security import check_password_hash
 
@@ -107,6 +107,48 @@ def logout():
     """Logs out user and return the login url"""
     logout_user()
     return redirect(url_for('login'))
+
+
+@app.route('/create-wallet', methods=['POST'])
+@login_required
+def create_wallet():
+    """Retrieve data from the request"""
+    phone_number = request.form.get('phone_number')
+    next_of_kin = request.form.get('next_of_kin')
+    next_of_kin_number = request.form.get('next_of_kin_number')
+    pin = request.form.get('pin')
+    confirm_pin = request.form.get('confirm_pin')
+
+
+    """wallet validation checks"""
+    if pin != confirm_pin:
+        flash('Pin numbers do not match')
+        return redirect(url_for('create_wallet'))
+    if len(pin) < 4:
+        flash('Pin should be at least 4 characters')
+        return redirect(url_for('create_wallet'))
+
+
+    """Check if the same phone number is being used already"""
+    storage.reload()
+    wallet = storage.get(Wallet, phone_number)
+    if wallet:
+        storage.close()
+        flash('This phone number has already been used for a wallet')
+        return redirect(url_for('create_wallet'))
+    else:
+        new_wallet = {
+            'phone_number': phone_number,
+            'next_of_kin': next_of_kin,
+            'next_of_kin_number': next_of_kin_number,
+            'pin': pin,
+        }
+        wallet = Wallet(new_wallet)
+        storage.new(wallet)
+        storage.save()
+
+        flash('Wallet created successfully.', 'success')
+        return redirect(url_for('dashboard'))
 
 
 @app.teardown_appcontext
