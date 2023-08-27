@@ -1,4 +1,4 @@
-   // Get the modal and the login button
+// Get the modal and the login button
        var modal = document.getElementById("loginModal");
        var loginButton = document.querySelector(".login-button");
 

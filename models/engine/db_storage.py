@@ -76,7 +76,7 @@ class DBStorage:
 
     def get(self, cls, email_address):
         """Retrieve one object based on class and its email"""
-        objects = self.__session.query(cls).filter_by(email_address=email_address).one()
+        objects = self.__session.query(cls).filter_by(email_address=email_address).first()
         return objects if objects else None
 
     def count(self, cls=None):

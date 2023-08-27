@@ -28,6 +28,17 @@ def tear_down(exception):
     storage.close
 
 
+@app.errorhandler(404)
+def not_found_error(error):
+    """
+    A handler for 404 errors
+    """
+    response = {
+        "error": "Not found"
+    }
+    return jsonify(response), 404
+
+
 @login_manager.user_loader
 def load_user(id):
     # Load and return the user object based on the user_id
@@ -36,14 +47,14 @@ def load_user(id):
     return User.query.get(id)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
     """
     This If block manages the Post request when the user clicks submit
     after filling the html form
     """
     if request.method == 'POST':
-        email_address = request.form['email']
+        email_address = request.form['email_address']
         password = request.form['password']
 
         """
@@ -51,22 +62,15 @@ def login():
         to check if its in the database"""
         storage.reload()
         user = storage.get(User, email_address)
-        print(user)
-
-        """
-        The user password is checked against the hashed password table
-        which was created during registration
-        """
-        if user is not None and user.password == password:
+    
+        if user is None or user.password != password:
+            storage.close()
+            error_message = "Invalid email or password"
+            return redirect(url_for('home', error=error_message))
+        else:
             login_user(user)
             storage.close()
             return render_template('home_page.html')
-        else:
-            storage.close()
-            return ("Invalid email or Password")
-    else:
-        # Return a response for GET requests
-        return render_template('user_login.html') 
 
 
 @app.route('/profile', methods=['GET'])

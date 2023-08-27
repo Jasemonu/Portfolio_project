@@ -41,13 +41,19 @@
         <div class="modal-content">
             <span class="close" id="closeLoginModal">&times;</span>
             <h2>Login</h2>
-            <form action="http://localhost:5000/signin" method="POST" class="log">
+            <form id="loginForm" action="/login" method="POST" class="log">
                 <label for="username">Email:</label>
-                <input type="text" id="username" name="email_address" placeholder="Enter Your Email" autofocus required>
+                <input type="text" id="email_address" name="email_address" placeholder="Enter Your Email" autofocus required>
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" placeholder="Enter Your Password" autofocus required>
                 <button type="submit" class="login-button">Login</button>
             </form>
+
+			{% if error_message %}
+            <div class="error-message">
+                {{ error_message }}
+            </div>
+            {% endif %}
         </div>
     </div>
 

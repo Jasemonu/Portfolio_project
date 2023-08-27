@@ -15,7 +15,7 @@ class User(BaseModel, UserMixin, Base):
     phone_number = Column(Integer, nullable=False)
     sex = Column(String(10))
     address = Column(String(120), nullable=False)
-    password = Column(String(8), nullable=False, unique=True)
+    password = Column(String(8), nullable=False)
     wallet = relationship('Wallet', back_populates='users')
     transactions = relationship('Transaction', back_populates='users')
 
