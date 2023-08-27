@@ -109,7 +109,7 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/create-wallet', methods=['POST'])
+@app.route('/create-wallet', methods=['POST'], strict_slashes=False)
 @login_required
 def create_wallet():
     """Retrieve data from the request"""
@@ -143,7 +143,7 @@ def create_wallet():
             'next_of_kin_number': next_of_kin_number,
             'pin': pin,
         }
-        wallet = Wallet(new_wallet)
+        wallet = Wallet(**new_wallet)
         storage.new(wallet)
         storage.save()
 
