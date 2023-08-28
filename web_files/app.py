@@ -86,7 +86,7 @@ def login():
         else:
             login_user(user)
             storage.close()
-            return render_template('home_page.html')
+            return render_template('wallet.html')
 
 
 @app.route('/profile', methods=['GET'])
@@ -106,7 +106,7 @@ def profile():
 def logout():
     """Logs out user and return the login url"""
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))
 
 
 @app.teardown_appcontext

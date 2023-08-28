@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Dashboard</title>
+	<link rel="stylesheet" type="text/css" href="static/styles/wallet.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Wallet Dashboard</h1>
+    </div>
+    <div class="container">
+        <div class="balance">
+			<a href="#" class="link-format1">Wallet Balance</a>
+            <p>$1,000.00</p>
+        </div>
+		  <div class="transaction-list">
+            <h2>Services</h2>
+            <div class="transaction">
+				<a href="#" class="link-format2">Transfer</a>
+            </div>
+            <div class="transaction">
+				<a href="#" class="link-format2">Withdraw</a>
+            </div>
+			<div class="transaction">
+                 <a href="#" class="link-format2">Exchange Rates</a>
+            </div>
+		  </div>	
+        <div class="transaction-list">
+            <h2>Transaction History</h2>
+            <div class="transaction">
+                <p>Received $100 from John Doe</p>
+                <p>Aug 27, 2023</p>
+            </div>
+            <div class="transaction">
+                <p>Sent $50 to Jane Smith</p>
+                <p>Aug 26, 2023</p>
+            </div>
+        </div>
+    </div>
+
+	 <!-- Wallet Form Popup -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeLoginModal">&times;</span>
+            <h2>Create wallet</h2>
+            <form id="loginForm" action="/create_wallet" method="POST" class="log">
+                <label for="Wallet Account">Phone Number:</label>
+                <input type="text" id="phone" name="Phone number" placeholder="Enter Preferred Phone Number" autofocus required>
+				<label for="username">Next of kin:</label>
+                <input type="text" id="kin" name="Kin" placeholder="Enter Full name of Next of Kin" autofocus required>
+				<label for="username">Next of kin contact address:</label>
+                <input type="text" id="contact_address" name="contact_address" placeholder="Enter Contact Address of Next of kin" autofocus required>
+				<label for="kin_phone">Next of kin phone number:</label>
+				<input type="number" id="kin_phone" name="kin_phone" maxlength="15" pattern="[0-9]" placeholder="Enter Next of kin phone number" autofocus required>
+                <label for="pin">PIN:</label>
+                <input type="password" id="pin" name="pin" maxlength="4" pattern="[0-9]{4}" placeholder="Enter Your Pin" autofocus required>
+                <button type="submit" class="login-button">Login</button>
+            </form>
+</body>
+</html>
