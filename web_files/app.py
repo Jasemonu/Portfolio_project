@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 """ objects that handle all default RestFul API actions for user_login """
+from werkzeug.security import generate_password_hash, check_password_hash
 from models.user import User
 from models import storage
-from flask import abort,current_app, Flask, jsonify, render_template, redirect, url_for, request
+from flask import abort,current_app, Flask, jsonify, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_user, login_required, logout_user, LoginManager
 # from werkzeug.security import check_password_hash
 
@@ -35,6 +36,12 @@ def home():
 @app.route('/signup', methods=["POST"], strict_slashes=False)
 def sign_up():
     """Sign user up """
+    users = storage.all(User)
+    for item in users.values():
+        if item.email_address == request.form.get('email_address'):
+            flash('Email already exists')
+            return redirect(url_for('index'))
+
     n_user = {
         'first_name': request.form.get('first_name'),
         'last_name': request.form.get('last_name'),
@@ -42,9 +49,13 @@ def sign_up():
         'phone_number': request.form.get('phone_number'),
         'gender': request.form.get('gender'),
         'address': request.form.get('address'),
-        'password': request.form.get('password')
+        'password': ''
         }
+
     if request.form.get('password') == request.form.get('confirm_password'):
+        get_password = request.form.get('password')
+        hashed_password = generate_password_hash(get_password, method='sha256')
+        n_user['password'] = hashed_password
         userObject = User(**n_user)
         storage.new(userObject)
         storage.save()
@@ -75,11 +86,10 @@ def login():
         """
         The session searches for the email address of the user
         to check if its in the database"""
-        storage.reload()
         user = storage.get(User, email_address)
-        print(user)
+        get_password = check_password_hash(user.password, password)
     
-        if user is None or user.password != password:
+        if user is None or get_password is None:
             storage.close()
             error_message = "Invalid email or password"
             return redirect(url_for('index', error=error_message))
@@ -107,6 +117,121 @@ def logout():
     """Logs out user and return the login url"""
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/transaction', methods=['POST'], strict_slashes=False)
+@login_required
+def transaction():
+    """User saving, transfer or taking money from account"""
+    for item in current_user.wallet:
+        wallet_id = item.id
+        balance = item.account_balance
+    trans = {
+            'user_id': curent_user.id,
+            'wallet_id': wallet_id,
+            'recipient_name': request.form.get('recipient_name'),
+            'recipient_account': request.form.get('recipient_account'),
+            'amount': request.form.get('amount'),
+            'transaction_type': request.form.get('transaction_type'),
+            'description': request.form.get('description'),
+            'status': 'pending'
+            }
+    trans_obj = Transaction(**trans)
+    storage.new(trans_obj)
+    storage.save()
+    if trans_obj.transaction_type != 'transfer':
+        ret =  deposite(trans_obj, balance)
+        if ret:
+            flash(ret + 'successful')
+            return redirect(url_for('dasboard'))
+        flash('transaction unsuccessful')
+        return redirect(url_for('dasboard'))
+    ret = transfer(trans_obj, balance, wallet_id)
+    if ret:
+        flash(ret + 'successful')
+        return redirect(url_for('dashbaord'))
+    flash('transaction unsuccessful')
+    return redirect(url_for('dashboard'))
+
+def deposite(cls, acb):
+    """top up user balance"""
+    if cls is None:
+        return None
+    wallet = storage.wallet(Wallet, cls.recipient_account)
+    if cls.transaction_type == 'deposite':
+        balance = acb + cls.amount
+        storage.update(wallet, {'account_balnce': balance})
+        storage.update(cls, {'status': 'approved'})
+        return 'deposite'
+    if cls.transaction_type == 'widrawal':
+
+        if cls.amount > acb:
+            return None
+        balance = acb - csl.amount
+        storage.update(wallet, {'account_balnce': balance})
+        storage.update(cls, {'status': 'approved'})
+    return 'widrawal'
+
+def transfer(cls, acb, id):
+    """send money from wallet to another wallet"""
+    if  cls None:
+        return None
+    reciever = storage.wallet(Wallet, cls.recipient_account)
+    if reciever:
+        wallet = storage.all(Wallet)
+        for item in wallet.values():
+            if item.id == id:
+                wallet_obj = item
+
+        if acb >= cls.amount:
+            balance = acb - cls.amount
+            storage.update(wallet_obj, {'account_balnce': balance})
+            storage.update(cls, {'status': 'approved'})
+            return True
+        else:
+            return None
+    else:
+        return None
+
+@app.route('/create-wallet', methods=['POST'], strict_slashes=False)
+@login_required
+def create_wallet():
+    """Retrieve data from the request"""
+    phone_number = request.form.get('phone_number')
+    next_of_kin = request.form.get('next_of_kin')
+    next_of_kin_number = request.form.get('next_of_kin_number')
+    pin = request.form.get('pin')
+    confirm_pin = request.form.get('confirm_pin')
+
+
+    """wallet validation checks"""
+    if pin != confirm_pin:
+        flash('Pin numbers do not match')
+        return redirect(url_for('create_wallet'))
+    if len(pin) < 4:
+        flash('Pin should be at least 4 characters')
+        return redirect(url_for('create_wallet'))
+
+
+    """Check if the same phone number is being used already"""
+    storage.reload()
+    wallet = storage.wallet(Wallet, phone_number)
+    if wallet:
+        storage.close()
+        flash('This phone number has already been used for a wallet')
+        return redirect(url_for('create_wallet'))
+    else:
+        new_wallet = {
+            'phone_number': phone_number,
+            'next_of_kin': next_of_kin,
+            'next_of_kin_number': next_of_kin_number,
+            'pin': pin,
+        }
+        wallet = Wallet(**new_wallet)
+        storage.new(wallet)
+        storage.save()
+
+        flash('Wallet created successfully.', 'success')
+        return redirect(url_for('dashboard'))
 
 
 @app.teardown_appcontext

@@ -79,6 +79,11 @@ class DBStorage:
         objects = self.__session.query(cls).filter_by(email_address=email_address).first()
         return objects if objects else None
 
+    def wallet(self, cls, acnt):
+        """Retrieve one wallet object based on class and its account"""
+        objects = self.__session.query(cls).filter_by(phone_number=acnt).first()
+        return objects if objects else None
+
     def count(self, cls=None):
         """Count the number of objects in storage matching the given class."""
         return len(self.all(cls))
@@ -89,6 +94,14 @@ class DBStorage:
         sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sess_factory)
         self.__session = Session
+
+    def update(self, obj, items):
+        """Updates table attributes in database"""
+        for key, value in items.items():
+            setattr(obj, key, value)
+        self.__session.add(obj)
+        self.save()
+        return obj
 
     def close(self):
         """call remove() method on the private session attribute"""
