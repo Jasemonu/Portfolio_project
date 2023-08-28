@@ -96,7 +96,7 @@ def login():
         else:
             login_user(user)
             storage.close()
-            return render_template('wallet.html')
+            return render_template('user_profile.html')
 
 
 @app.route('/profile', methods=['GET'])
@@ -173,7 +173,7 @@ def deposite(cls, acb):
 
 def transfer(cls, acb, id):
     """send money from wallet to another wallet"""
-    if  cls None:
+    if  cls is None:
         return None
     reciever = storage.wallet(Wallet, cls.recipient_account)
     if reciever:

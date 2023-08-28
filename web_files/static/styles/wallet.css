@@ -55,3 +55,7 @@
             justify-content: space-between;
             align-items: center;
         }
+        .link-format1:hover, .link-format2:hover {
+    		background-color: #0056b3; /* Change color on hover */
+       		color: #fff;
+		}
