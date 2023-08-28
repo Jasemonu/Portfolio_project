@@ -118,6 +118,79 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+@app.route('/transaction', methods=['POST'], strict_slashes=False)
+@login_required
+def transaction():
+    """User saving, transfer or taking money from account"""
+    for item in current_user.wallet:
+        wallet_id = item.id
+        balance = item.account_balance
+    trans = {
+            'user_id': curent_user.id,
+            'wallet_id': wallet_id,
+            'recipient_name': request.form.get('recipient_name'),
+            'recipient_account': request.form.get('recipient_account'),
+            'amount': request.form.get('amount'),
+            'transaction_type': request.form.get('transaction_type'),
+            'description': request.form.get('description'),
+            'status': 'pending'
+            }
+    trans_obj = Transaction(**trans)
+    storage.new(trans_obj)
+    storage.save()
+    if trans_obj.transaction_type != 'transfer':
+        ret =  deposite(trans_obj, balance)
+        if ret:
+            flash(ret + 'successful')
+            return redirect(url_for('dasboard'))
+        flash('transaction unsuccessful')
+        return redirect(url_for('dasboard'))
+    ret = transfer(trans_obj, balance, wallet_id)
+    if ret:
+        flash(ret + 'successful')
+        return redirect(url_for('dashbaord'))
+    flash('transaction unsuccessful')
+    return redirect(url_for('dashboard'))
+
+def deposite(cls, acb):
+    """top up user balance"""
+    if cls is None:
+        return None
+    wallet = storage.wallet(Wallet, cls.recipient_account)
+    if cls.transaction_type == 'deposite':
+        balance = acb + cls.amount
+        storage.update(wallet, {'account_balnce': balance})
+        storage.update(cls, {'status': 'approved'})
+        return 'deposite'
+    if cls.transaction_type == 'widrawal':
+
+        if cls.amount > acb:
+            return None
+        balance = acb - csl.amount
+        storage.update(wallet, {'account_balnce': balance})
+        storage.update(cls, {'status': 'approved'})
+    return 'widrawal'
+
+def transfer(cls, acb, id):
+    """send money from wallet to another wallet"""
+    if  cls None:
+        return None
+    reciever = storage.wallet(Wallet, cls.recipient_account)
+    if reciever:
+        wallet = storage.all(Wallet)
+        for item in wallet.values():
+            if item.id == id:
+                wallet_obj = item
+
+        if acb >= cls.amount:
+            balance = acb - cls.amount
+            storage.update(wallet_obj, {'account_balnce': balance})
+            storage.update(cls, {'status': 'approved'})
+            return True
+        else:
+            return None
+    else:
+        return None
 
 @app.route('/create-wallet', methods=['POST'], strict_slashes=False)
 @login_required
