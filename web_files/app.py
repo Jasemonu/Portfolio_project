@@ -152,7 +152,7 @@ def transaction():
     flash('transaction unsuccessful')
     return redirect(url_for('dashboard'))
 
-def deposite(cls, acb):
+def deposit(cls, acb):
     """top up user balance"""
     if cls is None:
         return None

@@ -9,10 +9,11 @@
 <body>
     <div class="navbar">
         <a href="#" class="logo">TransHub</a>
-        <a href="#">Login</a>
-        <a href="#">Sign Up</a>
+        <a href="/logout">Logout</a>
+		<a href="#">Go to wallet</a>
+		<a id="open-modal-button" href="#">Create wallet</a>
         <a href="#">Contact Us</a>
-        <a href="#">About</a>
+		<a href="#">About</a>
         <a href="#">Home</a>
     </div>
   <div class="layout-container">
@@ -24,8 +25,7 @@
         <p>This platform is designed to facilitate financial transactions.</p>
         <p>in various currencies, conveniently and securely.</p>
         <div class="button-container">
-            <a href="#" class="login-button">Login</a>
-            <a href="#" class="signup-button">Sign Up</a>
+            <a href="#" class="wallet-button">Go to wallet</a>
         </div>
     </div>
      <!-- Exchange rates aside -->
@@ -37,36 +37,33 @@
     </aside>
 </div>
 <!--Create Wallet Form Popup -->
-	<button id="open-modal-button" class="navbar">Create wallet</button>
     <div id="walletModal" class="modal">
         <div class="modal-content">
 			<span class="close-button" id="close">&times;</span>
             <h2>Create wallet</h2>
-            <form id="walletForm" action="/create_wallet" method="POST" class="log">
+            <form id="walletForm" action="/create-wallet" method="POST" class="log">
 			  <div class="user-details">
 				<div class="input-box">
 				<span class="details">Phone Number</span>
-                <input type="text" id="phone" name="Phone number" placeholder="Enter Preferred Phone Number" autofocus required>
+                <input type="text" id="phone" name="phone_number" placeholder="Enter Preferred Phone Number" autofocus required>
 				</div>
 				<div class="input-box">
 				<span class="details">Next of kin full name</span>
-                <input type="text" id="kin" name="Kin" placeholder="Enter Full name of Next of Kin" autofocus required>
-				</div>
-				<div class="input-box">
-				<span class="details">Next of kin contact address</span>
-                <input type="text" id="contact_address" name="contact_address" placeholder="Enter Contact Address of Next of kin" autofocus required>
+                <input type="text" id="kin" name="next_of_kin" placeholder="Enter Full name of Next of Kin" autofocus required>
 				</div>
 				<div class="input-box">
 				<span class="details">Next of kin phone number</span>
-				<input type="number" id="kin_phone" name="kin_phone" maxlength="15" pattern="[0-9]" placeholder="Enter phone number of Next of kin" autofocus required>
+				<input type="number" id="kin_phone" name="next_of_kin_number" pattern="[0-9]" placeholder="Enter phone number of Next of kin" autofocus required>
 				</div>
 				<div class="input-box">
 				<span class="details">Pin</span>
-                <input type="password" id="pin" name="pin" maxlength="4" pattern="[0-9]{4}" placeholder="Enter Your Pin" autofocus required>
+                <input type="password" id="pin" name="pin" maxlength="4" pattern="[0-9]{4}" placeholder="Enter 4-digit pin" autofocus required>
 				</div>
 				<div class="input-box">
-                <button type="submit" class="submit-button">Submit</button>
+				<span class="details">Confirm Pin</span>
+                <input type="password" id="pin" name="confirm_pin" maxlength="4" pattern="[0-9]{4}" placeholder="Confirm your pin" autofocus required>
 				</div>
+                <button type="submit" class="submit-button">Submit</button>
 			  </div>
             </form>
 	   </div>

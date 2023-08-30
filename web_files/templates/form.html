@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="../static/styles/home_page.css">
+  <title>Modal Form Example</title>
+</head>
+<body>
+  <!--Create Wallet Form Popup -->
+	<button id="open-modal-button" class="navbar">Create wallet</button>
+    <div id="walletModal" class="modal">
+        <div class="modal-content">
+			<span class="close-button" id="close">&times;</span>
+            <h2>Create wallet</h2>
+            <form id="walletForm" action="/create_wallet" method="POST" class="log">
+			  <div class="user-details">
+				<div class="input-box">
+				<span class="details">Phone Number</span>
+                <input type="text" id="phone" name="Phone number" placeholder="Enter Preferred Phone Number" autofocus required>
+				</div>
+				<div class="input-box">
+				<span class="details">Next of kin full name</span>
+                <input type="text" id="kin" name="Kin" placeholder="Enter Full name of Next of Kin" autofocus required>
+				</div>
+				<div class="input-box">
+				<span class="details">Next of kin contact address</span>
+                <input type="text" id="contact_address" name="contact_address" placeholder="Enter Contact Address of Next of kin" autofocus required>
+				</div>
+				<div class="input-box">
+				<span class="details">Next of kin phone number</span>
+				<input type="number" id="kin_phone" name="kin_phone" maxlength="15" pattern="[0-9]" placeholder="Enter phone number of Next of kin" autofocus required>
+				</div>
+				<div class="input-box">
+				<span class="details">Pin</span>
+                <input type="password" id="pin" name="pin" maxlength="4" pattern="[0-9]{4}" placeholder="Enter Your Pin" autofocus required>
+				</div>
+				<div class="input-box">
+                <button type="submit" class="submit-button">Submit</button>
+				</div>
+			  </div>
+            </form>
+	   </div>
+	</div>
+
+  <script src="static/scripts/create_wallet.js"></script>
+</body>
+</html>
+
