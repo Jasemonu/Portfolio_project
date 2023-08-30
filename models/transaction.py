@@ -9,6 +9,7 @@ from datetime import datetime
 
 
 class Transaction(BaseModel, Base):
+    """Class for transactions objects"""
     __tablename__ = "transactions"
     user_id = Column(String(120), ForeignKey('users.id'))
     wallet_id = Column(String(120), ForeignKey('wallets.id'))
@@ -20,8 +21,10 @@ class Transaction(BaseModel, Base):
     description = Column(String(120))
     status = Column(String(20))
 
-    users = relationship("User", back_populates="transactions", cascade='delete')
-    wallets = relationship("Wallet", back_populates="transactions", cascade='delete')
+    users = relationship("User",
+                         back_populates="transactions", cascade='delete')
+    wallets = relationship("Wallet", back_populates="transactions",
+                           cascade='delete')
 
     def __init__(self, *args, **kwargs):
         """initializes transaction"""
