@@ -2,6 +2,7 @@
 """ objects that handle all default RestFul API actions for user_login """
 from werkzeug.security import generate_password_hash, check_password_hash
 from models.user import User
+from models.wallet import Wallet
 from models import storage
 from flask import abort,current_app, Flask, jsonify, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_user, login_required, logout_user, LoginManager
@@ -201,37 +202,58 @@ def create_wallet():
     next_of_kin_number = request.form.get('next_of_kin_number')
     pin = request.form.get('pin')
     confirm_pin = request.form.get('confirm_pin')
-
-
+    
     """wallet validation checks"""
+    if pin is None or confirm_pin is None:
+        flash('Pin numbers must be provided')
+        print('i noticed an error')
+        
     if pin != confirm_pin:
         flash('Pin numbers do not match')
-        return redirect(url_for('create_wallet'))
+        return render_template('form.html')
+
     if len(pin) < 4:
         flash('Pin should be at least 4 characters')
-        return redirect(url_for('create_wallet'))
+        return render_template('form.html')
 
-
-    """Check if the same phone number is being used already"""
+    """Check if the same phone number is being used"""
     storage.reload()
     wallet = storage.wallet(Wallet, phone_number)
     if wallet:
         storage.close()
         flash('This phone number has already been used for a wallet')
-        return redirect(url_for('create_wallet'))
+        return render_template('form.html')
     else:
+       # if current_user.has_wallet:
+        if current_user.is_authenticated and current_user.has_wallet:
+            storage.close()
+            flash('You already have a wallet')
+            return redirect(url_for('dashboard'))
+
+        """If the user does not have a wallet, proceed to create one"""
         new_wallet = {
             'phone_number': phone_number,
             'next_of_kin': next_of_kin,
             'next_of_kin_number': next_of_kin_number,
             'pin': pin,
+            'has_wallet': True
         }
         wallet = Wallet(**new_wallet)
         storage.new(wallet)
         storage.save()
-
         flash('Wallet created successfully.', 'success')
         return redirect(url_for('dashboard'))
+
+
+@app.route('/dashboard', strict_slashes=False)
+#@login_required
+def dashboard():
+    """This ensures that users without wallet cannot access the dashboard page"""
+    #if current_user.has_wallet == True:
+    if current_user.is_authenticated and current_user.has_wallet:
+        return render_template('dashboards')
+    flash('Please you have no wallet, kindly create one')
+    return redirect(url_for('home'))
 
 
 @app.teardown_appcontext
@@ -261,4 +283,4 @@ if __name__ == "__main__":
     app.debug = True
 
     # Run the flask server
-    app.run(host='0.0.0.0', port=5000, threaded=True)
+    app.run(host='0.0.0.0', port=5001, threaded=True)
