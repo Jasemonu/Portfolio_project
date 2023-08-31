@@ -202,21 +202,28 @@ def create_wallet():
     pin = request.form.get('pin')
     confirm_pin = request.form.get('confirm_pin')
 
+
     """wallet validation checks"""
+    if pin is None or confirm_pin is None:
+        print('pin not matching')
+        flash('Pin numbers must be provided')
+        return render_template('form.html')
+    
     if pin != confirm_pin:
         flash('Pin numbers do not match')
-        return redirect(url_for('create_wallet'))
+        return render_template('form.html')
+
     if len(pin) < 4:
         flash('Pin should be at least 4 characters')
-        return redirect(url_for('create_wallet'))
+        return render_template('form.html')
 
-    """Check if the same phone number is being used already"""
+    """Check if the same phone number is being used"""
     storage.reload()
     wallet = storage.wallet(Wallet, phone_number)
     if wallet:
         storage.close()
         flash('This phone number has already been used for a wallet')
-        return redirect(url_for('create_wallet'))
+        return render_template('form.html')
     else:
         if current_user.has_wallet:
             storage.close()
@@ -235,11 +242,12 @@ def create_wallet():
         storage.new(wallet)
         storage.save()
 
+        
         flash('Wallet created successfully.', 'success')
         return redirect(url_for('dashboard'))
 
 
-@app.route('/dashoard', strict_slashes=False)
+@app.route('/dashboard', strict_slashes=False)
 @login_required
 def dashboard():
     """This ensures that users without wallet cannot access the dashboard page"""
