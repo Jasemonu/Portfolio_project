@@ -246,10 +246,11 @@ def create_wallet():
 
 
 @app.route('/dashboard', strict_slashes=False)
-@login_required
+#@login_required
 def dashboard():
     """This ensures that users without wallet cannot access the dashboard page"""
-    if current_user.has_wallet == True:
+    #if current_user.has_wallet == True:
+    if current_user.is_authenticated and current_user.has_wallet:
         return render_template('dashboards')
     flash('Please you have no wallet, kindly create one')
     return redirect(url_for('home'))
