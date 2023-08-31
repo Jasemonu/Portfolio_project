@@ -2,6 +2,7 @@
 """ objects that handle all default RestFul API actions for user_login """
 from werkzeug.security import generate_password_hash, check_password_hash
 from models.user import User
+from models.wallet import Wallet
 from models import storage
 from flask import abort,current_app, Flask, jsonify, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_user, login_required, logout_user, LoginManager
@@ -193,7 +194,7 @@ def transfer(cls, acb, id):
         return None
 
 @app.route('/create-wallet', methods=['POST'], strict_slashes=False)
-@login_required
+#@login_required
 def create_wallet():
     """Retrieve data from the request"""
     phone_number = request.form.get('phone_number')
@@ -201,14 +202,12 @@ def create_wallet():
     next_of_kin_number = request.form.get('next_of_kin_number')
     pin = request.form.get('pin')
     confirm_pin = request.form.get('confirm_pin')
-
-
+    
     """wallet validation checks"""
     if pin is None or confirm_pin is None:
-        print('pin not matching')
         flash('Pin numbers must be provided')
-        return render_template('form.html')
-    
+        print('i noticed an error')
+        
     if pin != confirm_pin:
         flash('Pin numbers do not match')
         return render_template('form.html')
@@ -225,7 +224,8 @@ def create_wallet():
         flash('This phone number has already been used for a wallet')
         return render_template('form.html')
     else:
-        if current_user.has_wallet:
+       # if current_user.has_wallet:
+        if current_user.is_authenticated and current_user.has_wallet:
             storage.close()
             flash('You already have a wallet')
             return redirect(url_for('dashboard'))
@@ -241,8 +241,6 @@ def create_wallet():
         wallet = Wallet(**new_wallet)
         storage.new(wallet)
         storage.save()
-
-        
         flash('Wallet created successfully.', 'success')
         return redirect(url_for('dashboard'))
 
@@ -284,4 +282,4 @@ if __name__ == "__main__":
     app.debug = True
 
     # Run the flask server
-    app.run(host='0.0.0.0', port=5000, threaded=True)
+    app.run(host='0.0.0.0', port=5001, threaded=True)
