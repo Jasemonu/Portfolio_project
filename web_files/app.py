@@ -202,7 +202,6 @@ def create_wallet():
     pin = request.form.get('pin')
     confirm_pin = request.form.get('confirm_pin')
 
-
     """wallet validation checks"""
     if pin != confirm_pin:
         flash('Pin numbers do not match')
@@ -210,7 +209,6 @@ def create_wallet():
     if len(pin) < 4:
         flash('Pin should be at least 4 characters')
         return redirect(url_for('create_wallet'))
-
 
     """Check if the same phone number is being used already"""
     storage.reload()
@@ -220,6 +218,12 @@ def create_wallet():
         flash('This phone number has already been used for a wallet')
         return redirect(url_for('create_wallet'))
     else:
+        if current_user.has_wallet:
+            storage.close()
+            flash('You already have a wallet')
+            return redirect(url_for('dashboard'))
+
+        """If the user does not have a wallet, proceed to create one"""
         new_wallet = {
             'phone_number': phone_number,
             'next_of_kin': next_of_kin,
