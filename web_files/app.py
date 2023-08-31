@@ -194,7 +194,7 @@ def transfer(cls, acb, id):
         return None
 
 @app.route('/create-wallet', methods=['POST'], strict_slashes=False)
-#@login_required
+@login_required
 def create_wallet():
     """Retrieve data from the request"""
     phone_number = request.form.get('phone_number')
