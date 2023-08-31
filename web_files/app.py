@@ -225,6 +225,7 @@ def create_wallet():
             'next_of_kin': next_of_kin,
             'next_of_kin_number': next_of_kin_number,
             'pin': pin,
+            'has_wallet': True
         }
         wallet = Wallet(**new_wallet)
         storage.new(wallet)
@@ -232,6 +233,16 @@ def create_wallet():
 
         flash('Wallet created successfully.', 'success')
         return redirect(url_for('dashboard'))
+
+
+@app.route('/dashoard', strict_slashes=False)
+@login_required
+def dashboard():
+    """This ensures that users without wallet cannot access the dashboard page"""
+    if current_user.has_wallet == True:
+        return render_template('dashboards')
+    flash('Please you have no wallet, kindly create one')
+    return redirect(url_for('home'))
 
 
 @app.teardown_appcontext
