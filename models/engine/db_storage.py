@@ -61,7 +61,12 @@ class DBStorage:
         if obj is not None:
             self.__session.delete(obj)
 
-    def get(self, cls, email_address):
+    def get(self, cls, id):
+        """Retrieve one object based on class and its id"""
+        objects = self.__session.query(cls).filter_by(id=id).first()
+        return objects if objects else None
+
+    def get_email(self, cls, email_address):
         """Retrieve one object based on class and its email"""
         objects = self.__session.query(cls).filter_by(
                     email_address=email_address).first()
