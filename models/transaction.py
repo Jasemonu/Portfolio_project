@@ -21,9 +21,9 @@ class Transaction(BaseModel, Base):
     description = Column(String(120))
     status = Column(String(20))
 
-    users = relationship("User",
+    user = relationship("User",
                          back_populates="transactions", cascade='delete')
-    wallets = relationship("Wallet", back_populates="transactions",
+    wallet = relationship("Wallet", back_populates="transactions",
                            cascade='delete')
 
     def __init__(self, *args, **kwargs):
