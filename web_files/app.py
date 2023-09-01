@@ -61,9 +61,8 @@ def sign_up():
         storage.new(userObject)
         storage.save()
 
-        return userObject.to_dict()
+        return redirect(url_for('home'))
     return redirect('index')
-
 
 """ User Login Endpoint"""
 @login_manager.user_loader
@@ -74,7 +73,7 @@ def load_user(user_id):
     return storage.get(User, user_id)
 
 
-@app.route('/login', methods=['POST'], strict_slashes=False)
+@app.route('/login', methods=['GET', 'POST'], strict_slashes=False)
 def login():
     """
     This If block manages the Post request when the user clicks submit
@@ -87,7 +86,7 @@ def login():
         """
         The session searches for the email address of the user
         to check if its in the database"""
-        user = storage.get(User, email_address)
+        user = storage.get_email(User, email_address)
         get_password = check_password_hash(user.password, password)
     
         if user is None or get_password is None:
@@ -98,7 +97,6 @@ def login():
             login_user(user)
             storage.close()
             return render_template('home_page.html')
-
 
 @app.route('/profile', methods=['GET'])
 @login_required
@@ -193,8 +191,7 @@ def transfer(cls, acb, id):
     else:
         return None
 
-@app.route('/create-wallet', methods=['POST'], strict_slashes=False)
-@login_required
+@app.route('/create-wallet', methods=['GET', 'POST'], strict_slashes=False)
 def create_wallet():
     """Retrieve data from the request"""
     phone_number = request.form.get('phone_number')
@@ -225,18 +222,18 @@ def create_wallet():
         return render_template('form.html')
     else:
        # if current_user.has_wallet:
-        if current_user.is_authenticated and current_user.has_wallet:
+        if current_user.is_authenticated and current_user.wallet:
             storage.close()
             flash('You already have a wallet')
             return redirect(url_for('dashboard'))
 
         """If the user does not have a wallet, proceed to create one"""
         new_wallet = {
+            'user_id': current_user.id,
             'phone_number': phone_number,
             'next_of_kin': next_of_kin,
             'next_of_kin_number': next_of_kin_number,
-            'pin': pin,
-            'has_wallet': True
+            'pin': pin
         }
         wallet = Wallet(**new_wallet)
         storage.new(wallet)
@@ -246,12 +243,11 @@ def create_wallet():
 
 
 @app.route('/dashboard', strict_slashes=False)
-#@login_required
 def dashboard():
     """This ensures that users without wallet cannot access the dashboard page"""
     #if current_user.has_wallet == True:
-    if current_user.is_authenticated and current_user.has_wallet:
-        return render_template('dashboards')
+    if current_user.is_authenticated and current_user.wallet:
+        return render_template('wallet.html')
     flash('Please you have no wallet, kindly create one')
     return redirect(url_for('home'))
 
@@ -283,4 +279,4 @@ if __name__ == "__main__":
     app.debug = True
 
     # Run the flask server
-    app.run(host='0.0.0.0', port=5001, threaded=True)
+    app.run(host='0.0.0.0', port=5000, threaded=True)
