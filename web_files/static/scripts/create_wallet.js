@@ -2,7 +2,7 @@ const openModalButton = document.getElementById("open-modal-button");
 const modal = document.getElementById("walletModal");
 const closeButton = document.querySelector(".close-button");
 
-openModalButton.addEventListener("click", () => {
+openModalButton.addEventListener("click", (event) => {
   modal.style.display = "block";
 });
 

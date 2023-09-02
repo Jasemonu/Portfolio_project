@@ -71,13 +71,14 @@
             display: block;
             margin-bottom: 10px;
         }
-        input[type="text"] {
+        input, #selectOption {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 3px;
         }
+       /*
 		button {
             background-color: #007BFF;
             color: #fff;
@@ -88,21 +89,27 @@
         }
         button:hover {
             background-color: #0056b3;
-        }
+        }*/
 
 		.modal {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 30%;
   height: 30%;
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
   align-items: center;
   justify-content: center;
 }
-
+.form-container {
+            max-height: 300px; /* Set the maximum height for scrolling */
+            overflow-y: auto; /* Enable vertical scrolling */
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
+/*
 .modal-content {
   background-color: #fefefe;
   margin: 5% auto;
@@ -111,7 +118,7 @@
   width: 40%; 
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-}
+}*/
 
 .close-button {
     float: right;
@@ -124,7 +131,7 @@
     color: #000;
 }
 
-
+/*
 .modal-content h2 {
   margin-top: 0;
   font-size: 16px;
@@ -162,13 +169,13 @@
   display: inline-block;
   width: 100%;
 }
-
+*/
 .submit-button {
     display: inline-block;
     width: 150px;
     margin: 10px;
     padding: 10px;
-    background-color: #007bff; /* Blue color for the buttons */
+    background-color: #007bff; /*Blue color for the buttons*/
     color: white;
     text-align: center;
     text-decoration: none;
