@@ -1,22 +1,10 @@
-"""from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine 
-from sqlalchemy.orm import sessionmaker
-from models.user import User
-from models.wallet import Wallet
-from models.transaction import Transaction
-
-db_url = "mysql+mysqldb://root:root@localhost/transhub"
-engine = create_engine(db_url)
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-session = Session()"""
-
 #!/usr/bin/python3
 """
 Contains the class DBStorage
 """
 
 import models
+from os import getenv
 from models.base_model import BaseModel, Base
 from models.user import User
 from models.wallet import Wallet
@@ -35,20 +23,19 @@ class DBStorage:
 
     def __init__(self):
         """Instantiate a DBStorage object"""
-        TRANSHUB_USER = 'root' #getenv('TRANSHUB_USER')
-        TRANSHUB_PWD =  'root' #getenv('TRANSHUB_PWD')
-        TRANSHUB_HOST = 'localhost' #getenv('TRANSHUB_HOST')
-        TRANSHUB_DB =  'transhub' #getenv('TRANSHUB_DB')
-        #TRANSHUB_ENV = getenv('TRANSHUB_ENV')
+        TRANSHUB_USER = getenv('TRANSHUB_USER')
+        TRANSHUB_PWD = getenv('TRANSHUB_PWD')
+        TRANSHUB_HOST = getenv('TRANSHUB_HOST')
+        TRANSHUB_DB = getenv('TRANSHUB_DB')
+        TRANSHUB_ENV = getenv('TRANSHUB_ENV')
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(TRANSHUB_USER,
                                              TRANSHUB_PWD,
                                              TRANSHUB_HOST,
                                              TRANSHUB_DB))
-        # if TRANSHUB_ENV == "test":
-        # Base.metadata.drop_all(self.__engine)
-        # self.__session = scoped_session(sessionmaker(bind=self.__engine))
-
+        if TRANSHUB_ENV == "test":
+            Base.metadata.drop_all(self.__engine)
+            self.__session = scoped_session(sessionmaker(bind=self.__engine))
 
     def all(self, cls=None):
         """query on the current database session"""
@@ -74,14 +61,21 @@ class DBStorage:
         if obj is not None:
             self.__session.delete(obj)
 
-    def get(self, cls, email_address):
+    def get(self, cls, id):
+        """Retrieve one object based on class and its id"""
+        objects = self.__session.query(cls).filter_by(id=id).first()
+        return objects if objects else None
+
+    def get_email(self, cls, email_address):
         """Retrieve one object based on class and its email"""
-        objects = self.__session.query(cls).filter_by(email_address=email_address).first()
+        objects = self.__session.query(cls).filter_by(
+                    email_address=email_address).first()
         return objects if objects else None
 
     def wallet(self, cls, acnt):
         """Retrieve one wallet object based on class and its account"""
-        objects = self.__session.query(cls).filter_by(phone_number=acnt).first()
+        objects = self.__session.query(cls).filter_by(
+                    phone_number=acnt).first()
         return objects if objects else None
 
     def count(self, cls=None):
