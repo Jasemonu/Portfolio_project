@@ -16,7 +16,8 @@ class Wallet(BaseModel, Base):
     next_of_kin_number = Column(Integer)
     balance = Column(Float, default=0.00)
     user = relationship("User", back_populates="wallet")
-    transactions = relationship('Transaction', back_populates='wallet')
+    transactions = relationship('Transaction', back_populates='wallet',
+                                 cascade='all, delete')
 
     def __init__(self, *args, **kwargs):
         """initializes wallet"""
