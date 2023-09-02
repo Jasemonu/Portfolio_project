@@ -21,10 +21,8 @@ class Transaction(BaseModel, Base):
     description = Column(String(120))
     status = Column(String(20))
 
-    user = relationship("User",
-                         back_populates="transactions", cascade='delete')
-    wallet = relationship("Wallet", back_populates="transactions",
-                           cascade='delete')
+    user = relationship("User", back_populates="transactions")
+    wallet = relationship("Wallet", back_populates="transactions")
 
     def __init__(self, *args, **kwargs):
         """initializes transaction"""
