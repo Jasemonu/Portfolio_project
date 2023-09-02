@@ -1,4 +1,4 @@
-		body {
+	body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -9,15 +9,15 @@
             color: #fff;
             text-align: center;
             padding: 1rem;
-			position: sticky;
-			top: 0;
+	    position: sticky;
+	    top: 0;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
-		.balance {
+	.balance {
             background-color: #fff;
 			color: black;
             padding: 1rem;
@@ -27,17 +27,17 @@
             justify-content: space-between;
             align-items: center;
         }
-		.link-format1 {
-    		text-decoration: none;
-    		color: black;
-			display: flex;
-			font-weight: bold;
-			font-size: 22px;
-		}
-		.link-format2 {
-    		text-decoration: none;
-    		color: black; 
-		}
+	.link-format1 {
+            text-decoration: none;
+    	    color: black;
+	    display: flex;
+	    font-weight: bold;
+	    font-size: 22px;
+	}
+	.link-format2 {
+    	    text-decoration: none;
+    	    color: black; 
+	}
         .transaction-list {
             margin-top: 2rem;
 			margin-bottom: 2rem;
@@ -46,7 +46,7 @@
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-		.transaction {
+	.transaction {
             margin-bottom: 1rem;
             padding: 1rem;
             border: 1px solid #ccc;
@@ -58,4 +58,4 @@
         .link-format1:hover, .link-format2:hover {
     		background-color: #0056b3; /* Change color on hover */
        		color: #fff;
-		}
+	}
