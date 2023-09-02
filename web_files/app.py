@@ -87,6 +87,9 @@ def login():
         The session searches for the email address of the user
         to check if its in the database"""
         user = storage.get_email(User, email_address)
+        if user is None:
+            flash("User doesn't exist")
+            return redirect(url_for('index'))
         get_password = check_password_hash(user.password, password)
     
         if user is None or get_password is None:
@@ -96,7 +99,7 @@ def login():
         else:
             login_user(user)
             storage.close()
-            return render_template('wallet.html')
+            return render_template('home_page.html')
 
 @app.route('/profile', methods=['GET'])
 @login_required
@@ -196,6 +199,7 @@ def create_wallet():
     """Retrieve data from the request"""
     phone_number = request.form.get('phone_number')
     next_of_kin = request.form.get('next_of_kin')
+    next_of_kin_relationship = request.form.get('next_of_kin_relationship')
     next_of_kin_number = request.form.get('next_of_kin_number')
     pin = request.form.get('pin')
     confirm_pin = request.form.get('confirm_pin')
@@ -232,6 +236,7 @@ def create_wallet():
             'user_id': current_user.id,
             'phone_number': phone_number,
             'next_of_kin': next_of_kin,
+            'next_of_kin_relationship': next_of_kin_relationship,
             'next_of_kin_number': next_of_kin_number,
             'pin': pin
         }
