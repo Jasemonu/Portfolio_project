@@ -16,8 +16,10 @@ class User(BaseModel, UserMixin, Base):
     sex = Column(String(10))
     address = Column(String(120), nullable=False)
     password = Column(String(120), nullable=False)
-    wallet = relationship('Wallet', back_populates='user')
-    transactions = relationship('Transaction', back_populates='user')
+    wallet = relationship('Wallet', back_populates='user',
+                          cascade='all, delete')
+    transactions = relationship('Transaction', back_populates='user',
+                                 cascade='all, delete')
 
     def __init__(self, *args, **kwargs):
         """Initializes user"""

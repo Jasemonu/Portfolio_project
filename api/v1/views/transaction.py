@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """transaction API endpoints blue print"""
-from flask import Blueprint, abort, jsonify
+from flask import Blueprint, abort, jsonify, request
 from models.transaction import Transaction
 from models import storage
 

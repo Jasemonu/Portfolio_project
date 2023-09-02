@@ -22,13 +22,17 @@ html, body {
 .navbar a {
     float: right;
     display: block;
-    color: white;
+   /* color: white; */
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
 
-.navbar a:hover {
+.btn {
+    color: white;
+}
+
+.btn:hover {
     background-color: #ddd;
     color: black;
 }
@@ -110,6 +114,11 @@ html, body {
     text-decoration: none;
 }
 
+.logo:hover {
+    background-color: #ddd;
+    color: black;
+}
+
 /* Exchange rates aside */
 .exchange-rates {
    background-color: #FFF0F5;
@@ -150,7 +159,7 @@ html, body {
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 60%;
+    width: 35%;
     border-radius: 10px;
 }
 

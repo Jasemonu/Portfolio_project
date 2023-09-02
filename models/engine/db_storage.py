@@ -12,6 +12,7 @@ from models.transaction import Transaction
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+import datetime
 
 classes = {"User": User, "Transaction": Transaction, "Wallet": Wallet}
 
@@ -93,8 +94,7 @@ class DBStorage:
         """Updates table attributes in database"""
         for key, value in items.items():
             setattr(obj, key, value)
-        self.__session.add(obj)
-        self.save()
+        obj.save()
         return obj
 
     def close(self):

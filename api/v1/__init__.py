@@ -34,6 +34,22 @@ def create_app():
 
         return jsonify(_404)
 
+    @app.errorhandler(400)
+    def bad_request(error):
+        """Bad request error handler"""
+        msg = {
+                '400': error.description
+                }
+        return jsonify(msg)
+
+    @app.errorhandler(405)
+    def method_not_allowed(error):
+        """405 error handler"""
+        msg = {
+                "405": "Method Not Allowed"
+                }
+        return jsonify(msg)
+
     with app.app_context():
         storage.reload()
 
