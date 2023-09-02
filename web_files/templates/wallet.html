@@ -18,10 +18,10 @@
 		  <div class="transaction-list">
             <h2>Services</h2>
             <div class="transaction">
-				<a href="#" class="link-format2">Transfer</a>
+				<a id="open-modal-button" class="link-format2" href="#">Transfer</a>
             </div>
-            <div class="transaction">
-				<a href="#" class="link-format2">Withdraw</a>
+			<div class="transaction">
+				<a href="#" class="link-format2">Deposit</a>
             </div>
 			<div class="transaction">
                  <a href="#" class="link-format2">Exchange Rates</a>
@@ -38,6 +38,17 @@
                 <p>Aug 26, 2023</p>
             </div>
         </div>
-    </div>
+	<div id="walletModal" class="modal">
+        <div class="transfer">
+			<span class="close-button" id="close">&times;</span>
+        <h2>Transfer Money</h2>
+        <form id="walletForm"  action="/create-wallet" method="POST" class="log">
+            <label for="amount">Amount:</label>
+            <input type="text" id="amount" name="amount" placeholder="Enter amount" required>
+			<button type="submit" class="submit-button">Submit</button>
+        </form>
+	   </div>
+	</div>
+	<script src="static/scripts/create_wallet.js"></script>
 </body>
 </html>
