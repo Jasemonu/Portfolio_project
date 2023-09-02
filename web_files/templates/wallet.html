@@ -46,11 +46,21 @@
 	<div id="walletModal" class="modal">
         <div class="transfer">
 			<span class="close-button" id="close">&times;</span>
-        <h2>Transfer Money</h2>
+        <h2>Transfer To:</h2>
         <form id="walletForm"  action="/create-wallet" method="POST" class="log">
+			<label for="selectOption">Bank Name</label>
+        <select id="selectOption" name="selectedOption">
+            <option value="option1">Ecobank</option>
+            <option value="option2">Guarantee Trust Bank (GTB)</option>
+            <option value="option3">Stantic IBTC</option>
+            <option value="option4">United Bank for Africa (UBA)</option>
+			<option value="option3">Wallet</option>
+        </select>
+			<label for="amount">Account Number</label>
+			<input type="text" id="acc" name="acc-number" placeholder="Beneficiary account number" required>
             <label for="amount">Amount:</label>
             <input type="text" id="amount" name="amount" placeholder="Enter amount" required>
-			<button type="submit" class="submit-button">Submit</button>
+			<button type="submit" class="submit-button">Transfer</button>
         </form>
 	   </div>
 	</div>
