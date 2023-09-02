@@ -78,6 +78,6 @@ Thank you for choosing TransHub Gateway for your financial needs!
 
 - Samuel Zachariah Kwabena Affum ([GitHub](https://github.com/SamZec)) 
 - Rosemary Efebe ([GitHub](https://github.com/RosemaryEfebe247))
-- Joseph Asemonu ([Github](https://github.com/Jasemonu)) [jasemonu@mail.com](asemonu@gmail.com)
+- Joseph Asemonu ([Github](https://github.com/Jasemonu)) ([jasemonu@gmail.com](jasemonu@gmail.com))
 
 
