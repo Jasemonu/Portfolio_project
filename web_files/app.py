@@ -96,7 +96,7 @@ def login():
         else:
             login_user(user)
             storage.close()
-            return render_template('home_page.html')
+            return render_template('wallet.html')
 
 @app.route('/profile', methods=['GET'])
 @login_required
@@ -156,11 +156,11 @@ def deposit(cls, acb):
     if cls is None:
         return None
     wallet = storage.wallet(Wallet, cls.recipient_account)
-    if cls.transaction_type == 'deposite':
+    if cls.transaction_type == 'deposit':
         balance = acb + cls.amount
         storage.update(wallet, {'account_balnce': balance})
         storage.update(cls, {'status': 'approved'})
-        return 'deposite'
+        return 'deposit'
     if cls.transaction_type == 'widrawal':
 
         if cls.amount > acb:
