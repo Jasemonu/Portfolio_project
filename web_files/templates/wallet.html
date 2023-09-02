@@ -8,6 +8,11 @@
 </head>
 <body>
     <div class="header">
+	    {% with messages = get_flashed_messages() %}
+	    {% if messages %}
+	    <div> {{ messages[0] }}</div>
+	    {% endif %}
+	    {% endwith %}
         <h1>Wallet Dashboard</h1>
     </div>
     <div class="container">
