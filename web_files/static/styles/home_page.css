@@ -207,83 +207,58 @@
                 margin-left: 10px;
             }
 
-            .navbar .logo, .navbar a {
-                float: none;
-                display: block;
-                text-align: center;
-            }
-        }
+.navbar .logo, .navbar a {
+  float: none;
+  display: block;
+  text-align: center;
+    }
+}
+
+/*create wallet form */
+
+.modal-content {
+  background-color: #fff;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
 .modal {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 19%;
+  left: 65%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+  height: 30%;
   background-color: rgba(0, 0, 0, 0.5);
   align-items: center;
   justify-content: center;
 }
 
-.modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 10px;
-  border: 1px solid #888;  
-  width: 40%; 
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-}
+ label {
+   display: block;
+   margin-bottom: 10px;
+ }
+
+ input {
+   width: 100%;
+   padding: 10px;
+   margin-bottom: 15px;
+   border: 1px solid #ccc;
+   border-radius: 3px;
+ }
 
 .close-button {
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+   float: right;
+   font-size: 28px;
+   font-weight: bold;
+   cursor: pointer;
 }
 
 .close-button:hover {
     color: #000;
-}
-
-
-.modal-content h2 {
-  margin-top: 0;
-  font-size: 16px;
-}
-
-.modal-content form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.modal-content .user-details {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 5px 0;
-}
-
-.modal-content .user-details input {
-    width: 80%;
-    padding: 8px;
-    margin-top: 2px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.modal-content .details {
-    font-weight: bold;
-    font-size: 12px;
-    display: inline-block;
-    margin-bottom: 2px;
-}
-
-.modal-content .input-box {
-  display: inline-block;
-  width: 100%;
 }
 
 .submit-button {

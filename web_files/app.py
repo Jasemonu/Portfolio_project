@@ -99,7 +99,12 @@ def login():
         else:
             login_user(user)
             storage.close()
-            return render_template('home_page.html')
+            user_info = {
+		'first_name': current_user.first_name,
+                'last_name' : current_user.last_name,
+		'phone_number': current_user.phone_number
+            }
+            return render_template('wallet.html', user_info=user_info)
 
 @app.route('/profile', methods=['GET'])
 @login_required
@@ -258,7 +263,13 @@ def dashboard():
     """This ensures that users without wallet cannot access the dashboard page"""
     #if current_user.has_wallet == True:
     if current_user.is_authenticated and current_user.wallet:
-        return render_template('wallet.html')
+        user_info = {
+                'first_name': current_user.first_name,
+                'last_name' : current_user.last_name,
+                'phone_number': wallet.phone_number,
+                'balance': wallet.balance
+         }
+        return render_template('wallet.html', user_info=user_info)
     flash('Please you have no wallet, kindly create one')
     return redirect(url_for('home'))
 

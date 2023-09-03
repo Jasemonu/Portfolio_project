@@ -115,6 +115,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   align-items: center;
   justify-content: center;
+  z-index: 2;
 }
 .form-container {
             max-height: 300px; /* Set the maximum height for scrolling */
