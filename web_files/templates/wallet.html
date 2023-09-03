@@ -10,7 +10,12 @@
    <header>
         <div class="left-content">
             <h1>Wallet Dashboard</h1>
-			<p>Welcome, {{user_info.first_name }} {{user_info.last_name}} : {{ user_info.phone_number }}</p>
+	    <p>Welcome, {{current_user.first_name }} {{current_user.last_name}} : {% for item in current_user.wallet %} {{ item.phone_number }} {% endfor %}</p>
+			{% with messages = get_flashed_messages() %}
+			{% if messages %}
+			<p class='flash'>{{ messages[0] }} </p>
+			{% endif %}
+			{% endwith %}
         </div>
         <div class="right-content">
             <a href="/home">Back to Home</a>
@@ -18,27 +23,22 @@
     </header>
     <div class="container">
         <div class="balance">
-			<a href="#" class="link-format1">Wallet Balance</a>
-			{% for item in current_user.wallet %}
-			<p>${{ item.balance }}</p>
-			{% endfor %}
+	    <a href="#" class="link-format1">Wallet Balance</a>
+		{% for item in current_user.wallet %}
+	    <p>${{ item.balance }}</p>
+		{% endfor %}
         </div>
-		  <div class="transaction-list">
-		     {% with messages = get_flashed_messages() %}
-		     {% if messages %}
-		     <h2>Services</h2><span><p class='flash'>{{ messages[0] }} </p></span>
-		     {% endif %}
-		     {% endwith %}
+	<div class="transaction-list">
             <div class="transaction">
-				<a id="open-modal-button" class="link-format2" href="#">Transfer</a>
+		<a id="open-modal-button" class="link-format2" href="#">Transfer</a>
             </div>
-			<div class="transaction">
-				<a href="#" class="link-format2">Deposit</a>
+	    <div class="transaction">
+		<a href="#" class="link-format2">Deposit</a>
             </div>
-			<div class="transaction">
+	   <div class="transaction">
                  <a href="#" class="link-format2">Exchange Rates</a>
             </div>
-		  </div>	
+	</div>
         <div class="transaction-list">
 		{% set trans_type = ['transfer', 'deposite'] %}
             <h2>Transaction History</h2>
