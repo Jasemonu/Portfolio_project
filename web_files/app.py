@@ -99,7 +99,7 @@ def login():
         else:
             login_user(user)
             storage.close()
-            return render_template('home_page.html')
+            return render_template('wallet.html')
 
 @app.route('/profile', methods=['GET'])
 @login_required

@@ -60,9 +60,9 @@
             <input type="text" id="amount" name="amount" placeholder="Enter amount" required>
 			<label for="narration">Narration</label>
 			<input type="text" id="narration" name="narration" placeholder="Transaction Description">
-			<label for="pin">Pin</label>
-            <input type="password" id="pin" name="pin" maxlength="4" pattern="[0-9]{4}" placeholder="4-digit pin" autofocus autocomplete="off" required>
-				</div>
+			 <label for="pin">Pin:</label>
+        <input type="text" id="pin" name="pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="Enter your 4-digit PIN" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+        
 			<button type="submit" class="submit-button">Transfer</button>
         </form>
       </div>
