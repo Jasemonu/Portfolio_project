@@ -4,14 +4,23 @@
             padding: 0;
             background-color: #f4f4f4; 
         }
-        .header {
+        header {
             background-color: #333;
             color: #fff;
-            text-align: center;
-            padding: 1rem;
-	    position: sticky;
-	    top: 0;
+			display: flex;
+			justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+	        position: sticky;
+	        top: 0;
         }
+		.left-content {
+			flex: 1;
+		}
+		.right-content {
+			text-align: right;
+		}
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
