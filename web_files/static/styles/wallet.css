@@ -104,13 +104,13 @@
             background-color: #0056b3;
         }*/
 
-		.modal {
+.modal {
   display: none;
   position: fixed;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 30%;
+  width: 40%;
   height: 30%;
   background-color: rgba(0, 0, 0, 0.5);
   align-items: center;
@@ -118,7 +118,7 @@
   z-index: 2;
 }
 .form-container {
-            max-height: 300px; /* Set the maximum height for scrolling */
+            max-height: 400px; /* Set the maximum height for scrolling */
             overflow-y: auto; /* Enable vertical scrolling */
             border: 1px solid #ccc;
             padding: 20px;
