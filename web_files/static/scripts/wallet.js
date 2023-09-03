@@ -1,15 +1,18 @@
-document.addEventListener('DOMContentLoaded', function() {
-            // Get the form and button elements
-            var transferForm = document.getElementById('transferForm');
-            var transferButton = document.getElementById('transferButton');
+const openModalButton = document.getElementById("open-modal-button");
+const modal = document.getElementById("walletModal");
+const closeButton = document.querySelector(".close-button");
 
-            // Add an event listener to the transfer button
-            transferButton.addEventListener('click', function() {
-                // Get the entered amount
-                var amount = parseFloat(document.getElementById('amount').value);
+openModalButton.addEventListener("click", () => {
+  modal.style.display = "block";
+});
 
-                // Perform your transfer logic here
-                // For this example, we'll just display an alert with the amount
-                alert('Transferring ' + amount + ' dollars.');
-            });
-        });
+closeButton.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+window.addEventListener("click", function (event) {
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+});
+
