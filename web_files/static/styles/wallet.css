@@ -87,6 +87,10 @@
             border: 1px solid #ccc;
             border-radius: 3px;
         }
+       .flash {
+	       float: right;
+	       color: Orange;
+       }
        /*
 		button {
             background-color: #007BFF;
