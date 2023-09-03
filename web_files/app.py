@@ -61,7 +61,7 @@ def sign_up():
         storage.new(userObject)
         storage.save()
 
-        return redirect(url_for('home'))
+        return redirect(url_for('index'))
     return redirect('index')
 
 """ User Login Endpoint"""
@@ -120,38 +120,44 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/transaction', methods=['POST'], strict_slashes=False)
+@app.route('/transfer', methods=['POST'], strict_slashes=False)
 @login_required
-def transaction():
+def transfer():
     """User saving, transfer or taking money from account"""
+    if request.form.get('account_type') != 'Wallet':
+        print(request.form.get('account_type'))
+        flash('Not implemented')
+        return redirect(url_for('dashboard'))
     for item in current_user.wallet:
         wallet_id = item.id
-        balance = item.account_balance
+        balance = item.balance
+        pin = item.pin
     trans = {
-            'user_id': curent_user.id,
+            'user_id': current_user.id,
             'wallet_id': wallet_id,
-            'recipient_name': request.form.get('recipient_name'),
-            'recipient_account': request.form.get('recipient_account'),
+            'recipient_name': request.form.get('account_name'),
+            'recipient_account': request.form.get('account_number'),
             'amount': request.form.get('amount'),
-            'transaction_type': request.form.get('transaction_type'),
-            'description': request.form.get('description'),
+            'transaction_type': 'transfer',
+            'description': request.form.get('narration'),
             'status': 'pending'
             }
-    trans_obj = Transaction(**trans)
-    storage.new(trans_obj)
-    storage.save()
-    if trans_obj.transaction_type != 'transfer':
-        ret =  deposite(trans_obj, balance)
-        if ret:
-            flash(ret + 'successful')
-            return redirect(url_for('dasboard'))
-        flash('transaction unsuccessful')
-        return redirect(url_for('dasboard'))
-    ret = transfer(trans_obj, balance, wallet_id)
-    if ret:
-        flash(ret + 'successful')
-        return redirect(url_for('dashbaord'))
-    flash('transaction unsuccessful')
+    if request.form.get('pin') == pin:
+        trans_obj = Transaction(**trans)
+        storage.new(trans_obj)
+        storage.save()
+
+        ret = transfer(trans_obj, balance, wallet_id)
+        if ret == '1':
+            flash('Transfer successful')
+            return redirect(url_for('dashbaord'))
+        elif ret == '2':
+            flash('Insufficient Balance')
+            return redirect(url_for('dashboard'))
+        else:
+            flash("Wallet doesn't exists")
+            return redirect(url_for('dashboard'))
+    flash(' Transfer unsuccessful')
     return redirect(url_for('dashboard'))
 
 def deposit(cls, acb):
@@ -188,11 +194,11 @@ def transfer(cls, acb, id):
             balance = acb - cls.amount
             storage.update(wallet_obj, {'account_balnce': balance})
             storage.update(cls, {'status': 'approved'})
-            return True
+            return '1'
         else:
-            return None
+            return '2'
     else:
-        return None
+        return '3'
 
 @app.route('/create-wallet', methods=['GET', 'POST'], strict_slashes=False)
 def create_wallet():

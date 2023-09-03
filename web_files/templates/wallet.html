@@ -12,25 +12,22 @@
             <h1>Wallet Dashboard</h1>
         </div>
         <div class="right-content">
-            <a href="home_page.html">Back to Home</a>
+            <a href="/home">Back to Home</a>
         </div>
     </header>
-   
-<!-- <div class="header">
-	    {% with messages = get_flashed_messages() %}
-	    {% if messages %}
-	    <div> {{ messages[0] }}</div>
-	    {% endif %}
-	    {% endwith %}
-        <h1>Wallet Dashboard</h1>
-    </div> -->
     <div class="container">
         <div class="balance">
 			<a href="#" class="link-format1">Wallet Balance</a>
-            <p>$1,000.00</p>
+			{% for item in current_user.wallet %}
+			<p>${{ item.balance }}</p>
+			{% endfor %}
         </div>
 		  <div class="transaction-list">
-            <h2>Services</h2>
+		     {% with messages = get_flashed_messages() %}
+		     {% if messages %}
+		     <h2>Services</h2><span><p class='flash'>{{ messages[0] }} </p></span>
+		     {% endif %}
+		     {% endwith %}
             <div class="transaction">
 				<a id="open-modal-button" class="link-format2" href="#">Transfer</a>
             </div>
@@ -42,15 +39,20 @@
             </div>
 		  </div>	
         <div class="transaction-list">
+		{% set trans_type = ['transfer', 'deposite'] %}
             <h2>Transaction History</h2>
+	    {% for item in current_user.transactions %}
             <div class="transaction">
-                <p>Received $100 from John Doe</p>
-                <p>Aug 27, 2023</p>
+		    {% if item.transaction_type == trans_type[0] %}
+		    <p>Transfered ${{ item.amount}} to {{ item.recipient_name }}</p>
+		    <p>{{ item.updated_at.strftime("%b / ""%d / ""%Y") }}</p>
+
+		    {% elif item.transaction_type == trans_type[1] %}
+		    <p>Deposited ${{ item.amount}} to your account</p>
+		    <p>{{ item.updated_at.strftime("%b / ""%d / ""%Y") }}</p>
+		    {% endif %}
             </div>
-            <div class="transaction">
-                <p>Sent $50 to Jane Smith</p>
-                <p>Aug 26, 2023</p>
-            </div>
+	    {% endfor %}
         </div>
   <div id="walletModal" class="modal">
     <div class="transfer">
@@ -58,24 +60,24 @@
 	  <div class="form-container">
         <h2>Transfer To:</h2>
         <form id="walletForm"  action="/transfer" method="POST" class="log">
-			<label for="selectOption">Bank Name</label>
-        <select id="selectOption" name="Bank name">
+			<label for="selectOption">Account Type</label>
+        <select id="selectOption" name="account_type">
             <option value="option1">Ecobank</option>
             <option value="option2">Guarantee Trust Bank (GTB)</option>
             <option value="option3">Stantic IBTC</option>
             <option value="option4">United Bank for Africa (UBA)</option>
-			<option value="option3">Wallet</option>
+			<option value="Wallet">Wallet</option>
         </select>
 			<label for="number">Account Number</label>
-			<input type="text" id="acc-num" name="acc-number" placeholder="Beneficiary account number" required>
+			<input type="text" id="acc-num" name="account_number" placeholder="Beneficiary account number" required>
 			<label for="acc-name">Account Name</label>
-			<input type="text" id="acc-name" name="acc-name" placeholder="Beneficiary name" autocomplete="off" required>
+			<input type="text" id="acc-name" name="account_name" placeholder="Beneficiary name" autocomplete="off" required>
             <label for="amount">Amount</label>
             <input type="text" id="amount" name="amount" placeholder="Enter amount" required>
 			<label for="narration">Narration</label>
-			<input type="text" id="narration" name="narration" placeholder="Transaction Description">
+			<input type="text" id="narration" name="narration" placeholder="Transaction Description" required>
 			 <label for="pin">Pin:</label>
-        <input type="password" id="pin" name="pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="Enter your 4-digit PIN">
+        <input type="password" id="pin" name="pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="Enter your 4-digit PIN" required>
         
 			<button type="submit" class="submit-button">Transfer</button>
         </form>
