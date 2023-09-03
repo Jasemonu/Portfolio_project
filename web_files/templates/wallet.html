@@ -7,14 +7,23 @@
 	<link rel="stylesheet" type="text/css" href="static/styles/wallet.css">
 </head>
 <body>
-    <div class="header">
+   <header>
+        <div class="left-content">
+            <h1>Wallet Dashboard</h1>
+        </div>
+        <div class="right-content">
+            <a href="home_page.html">Back to Home</a>
+        </div>
+    </header>
+   
+<!-- <div class="header">
 	    {% with messages = get_flashed_messages() %}
 	    {% if messages %}
 	    <div> {{ messages[0] }}</div>
 	    {% endif %}
 	    {% endwith %}
         <h1>Wallet Dashboard</h1>
-    </div>
+    </div> -->
     <div class="container">
         <div class="balance">
 			<a href="#" class="link-format1">Wallet Balance</a>
@@ -66,7 +75,7 @@
 			<label for="narration">Narration</label>
 			<input type="text" id="narration" name="narration" placeholder="Transaction Description">
 			 <label for="pin">Pin:</label>
-        <input type="text" id="pin" name="pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="Enter your 4-digit PIN" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+        <input type="password" id="pin" name="pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="Enter your 4-digit PIN">
         
 			<button type="submit" class="submit-button">Transfer</button>
         </form>
