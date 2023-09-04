@@ -62,13 +62,13 @@
         <h2>Transfer To:</h2>
         <form id="walletForm"  action="/transfer" method="POST" class="log">
 			<label for="selectOption">Account Type</label>
-        <select id="selectOption" name="account_type">
+            <select id="selectOption" name="account_type">
             <option value="option1">Ecobank</option>
             <option value="option2">Guarantee Trust Bank (GTB)</option>
             <option value="option3">Stantic IBTC</option>
             <option value="option4">United Bank for Africa (UBA)</option>
 			<option value="Wallet">Wallet</option>
-        </select>
+            </select>
 			<label for="number">Account Number</label>
 			<input type="text" id="acc-num" name="account_number" placeholder="Beneficiary account number" required>
 			<label for="account_name">Account Name</label>
@@ -77,7 +77,7 @@
             <input type="text" id="amount" name="amount" placeholder="Enter amount" required>
 			<label for="narration">Narration</label>
 			<input type="text" id="narration" name="narration" placeholder="Transaction Description" required>
-			 <label for="pin">Pin:</label>
+			<label for="pin">Pin</label>
         <input type="password" id="pin" name="pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="Enter your 4-digit PIN" required>
         
 			<button type="submit" class="submit-button">Transfer</button>
