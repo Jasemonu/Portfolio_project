@@ -92,8 +92,8 @@
             border-radius: 3px;
         }
        .flash {
-	       float: right;
-	       color: Orange;
+	       text-align: center;
+	       color: #def;
        }
        /*
 		button {

@@ -282,3 +282,8 @@
     background-color: #f5f5f5;
     color: black;
 }
+
+.flash {
+    color: #def;
+    padding-left: 10px;
+    }
