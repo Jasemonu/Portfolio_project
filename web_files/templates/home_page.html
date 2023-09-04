@@ -16,6 +16,11 @@
 		<a href="#">About</a>
         <a href="#">Home</a>
     </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="flash">{{ messages[0] }}</div>
+    {% endif %}
+    {% endwith %}
   <div class="layout-container">
     <div class="call-to-action">
         <h1>
