@@ -29,9 +29,15 @@
 		{% endfor %}
         </div>
 	<div class="transaction-list">
-            <div class="transaction">
-		<a id="open-modal-button" class="link-format2" href="#">Transfer</a>
-            </div>
+      <div class="transaction">
+		  <div class="dropdown">
+		  <button id="transfer-dropdown" class="link-format2">Transfer &#9660;</button>
+		  <div class="dropdown-content" id="transfer-dropdown-content">
+				<a href="#" id="open-modal-button"> Wallet to Bank</a>
+			    <a href="#" id="wallet-number"> Wallet to Wallet</a>
+		  </div>
+		  </div>
+      </div>
 	    <div class="transaction">
 		<a href="#" class="link-format2">Deposit</a>
             </div>
@@ -55,12 +61,11 @@
             </div>
 	    {% endfor %}
         </div>
-  <div id="walletModal" class="modal">
+  <div id="bankModal" class="modal">
     <div class="transfer">
-			<span class="close-button" id="close">&times;</span>
-	  <div class="form-container">
+			<span class="close-button">&times;</span>
         <h2>Transfer To:</h2>
-        <form id="walletForm"  action="/transfer" method="POST" class="log">
+        <form id="bankform"  action="/transfer" method="POST" class="log">
 			<label for="selectOption">Account Type</label>
             <select id="selectOption" name="account_type">
             <option value="option1">Ecobank</option>
@@ -79,12 +84,25 @@
 			<input type="text" id="narration" name="narration" placeholder="Transaction Description" required>
 			<label for="pin">Pin</label>
         <input type="password" id="pin" name="pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="Enter your 4-digit PIN" required>
-        
 			<button type="submit" class="submit-button">Transfer</button>
+        </form>
+	</div>
+  </div>
+	<!-- Wallet to wallet form -->
+   <div id="walletModal" class="modal">
+     <div class="formwallet">
+			<span class="walletclose-button">&times;</span>
+        <h2>Transfer To:</h2>
+        <form id="walletform"  action="/transfer" method="POST" class="log">
+		  <label for="number">Wallet Number</label>
+		  <input type="text" id="wallet-num" name="Wallet_number" placeholder="Beneficiary Wallet number" required>
+		  <label for="pin">Pin</label>
+          <input type="password" id="pin" name="pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="Enter your 4-digit PIN" required>
+        
+		<button type="submit" class="submit-button">Transfer</button>
         </form>
       </div>
 	</div>
-  </div>
 	<script src="static/scripts/wallet.js"></script>
 </body>
 </html>

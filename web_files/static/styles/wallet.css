@@ -55,8 +55,47 @@
 	}
 	.link-format2 {
     	    text-decoration: none;
-    	    color: black; 
+    	    color: black;
+ 		    padding: 12px;
+  			border: none;
+            cursor: pointer;
 	}
+
+/* Style the transfer dropdown container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Style the dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+/* Style the dropdown links */
+.dropdown-content a {
+  color: black;
+  padding: 12px 10px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown content when the button is clicked */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+  
         .transaction-list {
             margin-top: 2rem;
 			margin-bottom: 2rem;
@@ -90,17 +129,38 @@
 			padding: 20px;
 
         }
-        label {
+     .transfer label {
             display: block;
             margin-bottom: 10px;
         }
-        input, #selectOption {
+       .transfer input, #selectOption {
             width: 105%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 3px;
         }
+	/* Additional style for formwallet */
+	.formwallet {
+			background-color: #fff;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			padding: 20px;
+	}
+.formwallet label {
+            display: block; 
+            margin-bottom: 10px;
+}
+.formwallet input {
+			 width: 100%;
+             padding: 10px;
+             margin-bottom: 15px;
+             border: 1px solid #ccc;
+             border-radius: 3px;
+}
+
        .flash {
 	       text-align: center;
 	       color: #def;
@@ -117,12 +177,11 @@
   background-color: rgba(0, 0, 0, 0.5);
   align-items: center;
   justify-content: center;
-  opacity: 1;
   z-index: 9999;
 }
 
 
-.close-button {
+.close-button, .walletclose-button {
     float: right;
 	margin: 0;
 	padding: 0;
@@ -131,7 +190,7 @@
     cursor: pointer;
 }
 
-.close-button:hover {
+.close-button, .walletclose-button:hover {
     color: #000;
 }
   
