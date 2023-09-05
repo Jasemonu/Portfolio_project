@@ -162,8 +162,10 @@
 }
 
        .flash {
+	       background-color: #333;
 	       text-align: center;
 	       color: #def;
+	       font-size: 20px;
        }
 
 .modal {
