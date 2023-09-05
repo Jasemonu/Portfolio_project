@@ -307,3 +307,9 @@ button.login-button:hover {
         text-align: center;
     }
 }
+.flash {
+	padding-left: 10px;
+	color: #def;
+}
+
+

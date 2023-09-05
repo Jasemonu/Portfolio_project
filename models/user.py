@@ -12,7 +12,7 @@ class User(BaseModel, UserMixin, Base):
     first_name = Column(String(120), nullable=False)
     last_name = Column(String(120), nullable=False)
     email_address = Column(String(120), unique=True, nullable=False)
-    phone_number = Column(Integer, nullable=False)
+    phone_number = Column(String(15), nullable=False)
     sex = Column(String(10))
     address = Column(String(120), nullable=False)
     password = Column(String(120), nullable=False)

@@ -3,6 +3,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from models.user import User
 from models.wallet import Wallet
+from models.transaction import Transaction
 from models import storage
 from flask import abort,current_app, Flask, jsonify, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_user, login_required, logout_user, LoginManager
@@ -55,14 +56,16 @@ def sign_up():
 
     if request.form.get('password') == request.form.get('confirm_password'):
         get_password = request.form.get('password')
-        hashed_password = generate_password_hash(get_password, method='sha256')
+        hashed_password = generate_password_hash(get_password, method='MD5')
         n_user['password'] = hashed_password
         userObject = User(**n_user)
         storage.new(userObject)
         storage.save()
 
+        flash("Signup successfull please Login")
         return redirect(url_for('index'))
-    return redirect('index')
+    flash('Please check password and Try agian')
+    return redirect(url_for('index'))
 
 """ User Login Endpoint"""
 @login_manager.user_loader
@@ -94,11 +97,12 @@ def login():
     
         if user is None or get_password is None:
             storage.close()
-            error_message = "Invalid email or password"
-            return redirect(url_for('index', error=error_message))
+            flash("Invalid email or password")
+            return redirect(url_for('index'))
         else:
             login_user(user)
             storage.close()
+            flash("Logged In Successfull")
             return render_template('home_page.html')
 
 @app.route('/profile', methods=['GET'])
@@ -118,6 +122,7 @@ def profile():
 def logout():
     """Logs out user and return the login url"""
     logout_user()
+    flash("Logged Out")
     return redirect(url_for('index'))
 
 @app.route('/transfer', methods=['POST'], strict_slashes=False)
@@ -141,28 +146,33 @@ def transfer():
             'description': request.form.get('narration'),
             'status': 'pending'
             }
-    if request.form.get('pin') == pin:
+    """
+    for k, v in trans.items():
+        print('{} {}'.format(k, v))
+        """
+    get_pin = request.form.get('pin')
+    if int(get_pin) == pin:
         trans_obj = Transaction(**trans)
         storage.new(trans_obj)
         storage.save()
 
         ret = transfer(trans_obj, balance, wallet_id)
         if ret == '1':
-            flash('Transfer successful')
-            return redirect(url_for('dashbaord'))
+            flash('Transfer successfull')
+            return redirect(url_for('dashboard'))
         elif ret == '2':
             flash('Insufficient Balance')
             return redirect(url_for('dashboard'))
         else:
             flash("Wallet doesn't exists")
             return redirect(url_for('dashboard'))
-    flash(' Transfer unsuccessful')
+    flash('Invalid PIN number')
     return redirect(url_for('dashboard'))
 
 def deposit(cls, acb):
     """top up user balance"""
     if cls is None:
-        return None
+        return '3'
     wallet = storage.wallet(Wallet, cls.recipient_account)
     if cls.transaction_type == 'deposit':
         balance = acb + cls.amount
@@ -171,8 +181,8 @@ def deposit(cls, acb):
         return 'deposit'
     if cls.transaction_type == 'widrawal':
 
-        if cls.amount > acb:
-            return None
+        if cls.amount > float(acb):
+            return '2'
         balance = acb - csl.amount
         storage.update(wallet, {'account_balnce': balance})
         storage.update(cls, {'status': 'approved'})
@@ -181,7 +191,7 @@ def deposit(cls, acb):
 def transfer(cls, acb, id):
     """send money from wallet to another wallet"""
     if  cls is None:
-        return None
+        return '3'
     reciever = storage.wallet(Wallet, cls.recipient_account)
     if reciever:
         wallet = storage.all(Wallet)
@@ -189,15 +199,14 @@ def transfer(cls, acb, id):
             if item.id == id:
                 wallet_obj = item
 
-        if acb >= cls.amount:
-            balance = acb - cls.amount
+        if acb >= float(cls.amount):
+            balance = acb - float(cls.amount)
             storage.update(wallet_obj, {'account_balnce': balance})
             storage.update(cls, {'status': 'approved'})
             return '1'
         else:
             return '2'
-    else:
-        return '3'
+    return '3'
 
 @app.route('/create-wallet', methods=['GET', 'POST'], strict_slashes=False)
 def create_wallet():
@@ -212,15 +221,15 @@ def create_wallet():
     """wallet validation checks"""
     if pin is None or confirm_pin is None:
         flash('Pin numbers must be provided')
-        print('i noticed an error')
+        return redirect(url_for('home'))
         
     if pin != confirm_pin:
         flash('Pin numbers do not match')
-        return render_template('form.html')
+        return redirect(url_for('home'))
 
     if len(pin) < 4:
         flash('Pin should be at least 4 characters')
-        return render_template('form.html')
+        return redirect(url_for('home'))
 
     """Check if the same phone number is being used"""
     storage.reload()

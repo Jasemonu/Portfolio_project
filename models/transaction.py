@@ -14,7 +14,7 @@ class Transaction(BaseModel, Base):
     user_id = Column(String(120), ForeignKey('users.id'))
     wallet_id = Column(String(120), ForeignKey('wallets.id'))
     recipient_name = Column(String(120))
-    recipient_account = Column(Integer)
+    recipient_account = Column(String(150), nullable=False)
     amount = Column(Float)
     transaction_type = Column(String(25))
     timestamp = Column(DateTime, default=datetime.utcnow)
