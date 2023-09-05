@@ -6,19 +6,29 @@
         }
         header {
             background-color: #333;
-            color: #fff;
 			display: flex;
+			height: 85px;
 			justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
+            padding: 1px 20px;
 	        position: sticky;
 	        top: 0;
         }
 		.left-content {
+			color: #fff;
+			height: 120px;
 			flex: 1;
 		}
-		.right-content {
+		.right-content a {
 			text-align: right;
+			color: red;
+			background-color: transparent;
+			border: none;
+			cursor: pointer;
+		}
+
+		.right-content a:hover {
+			color: blue;
 		}
 
         .container {
@@ -45,8 +55,47 @@
 	}
 	.link-format2 {
     	    text-decoration: none;
-    	    color: black; 
+    	    color: black;
+ 		    padding: 12px;
+  			border: none;
+            cursor: pointer;
 	}
+
+/* Style the transfer dropdown container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Style the dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+/* Style the dropdown links */
+.dropdown-content a {
+  color: black;
+  padding: 12px 10px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown content when the button is clicked */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+  
         .transaction-list {
             margin-top: 2rem;
 			margin-bottom: 2rem;
@@ -80,33 +129,42 @@
 			padding: 20px;
 
         }
-        label {
+     .transfer label {
             display: block;
             margin-bottom: 10px;
         }
-        input, #selectOption {
+       .transfer input, #selectOption {
             width: 105%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 3px;
         }
+	/* Additional style for formwallet */
+	.formwallet {
+			background-color: #fff;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			padding: 20px;
+	}
+.formwallet label {
+            display: block; 
+            margin-bottom: 10px;
+}
+.formwallet input {
+			 width: 100%;
+             padding: 10px;
+             margin-bottom: 15px;
+             border: 1px solid #ccc;
+             border-radius: 3px;
+}
+
        .flash {
 	       text-align: center;
 	       color: #def;
        }
-       /*
-		button {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }*/
 
 .modal {
   display: none;
@@ -119,22 +177,11 @@
   background-color: rgba(0, 0, 0, 0.5);
   align-items: center;
   justify-content: center;
-  opacity: 1;
   z-index: 9999;
 }
 
-/*
-.modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 10px;
-  border: 1px solid #888;  
-  width: 40%; 
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-}*/
 
-.close-button {
+.close-button, .walletclose-button {
     float: right;
 	margin: 0;
 	padding: 0;
@@ -143,49 +190,10 @@
     cursor: pointer;
 }
 
-.close-button:hover {
+.close-button, .walletclose-button:hover {
     color: #000;
 }
-
-/*
-.modal-content h2 {
-  margin-top: 0;
-  font-size: 16px;
-}
-
-.modal-content form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.modal-content .user-details {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 5px 0;
-}
-
-.modal-content .user-details input {
-    width: 80%;
-    padding: 8px;
-    margin-top: 2px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.modal-content .details {
-    font-weight: bold;
-    font-size: 12px;
-    display: inline-block;
-    margin-bottom: 2px;
-}
-
-.modal-content .input-box {
-  display: inline-block;
-  width: 100%;
-}
-*/
+  
 .submit-button {
     display: inline-block;
     width: 150px;
