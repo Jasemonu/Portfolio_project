@@ -13,7 +13,7 @@
 	    <p>Welcome, {{current_user.first_name }} {{current_user.last_name}} : {% for item in current_user.wallet %} {{ item.phone_number }} {% endfor %}</p>
 			{% with messages = get_flashed_messages() %}
 			{% if messages %}
-			<p class='flash'>{{ messages[0] }} </p>
+			<div class='flash'>{{ messages[0] }} </div>
 			{% endif %}
 			{% endwith %}
         </div>
