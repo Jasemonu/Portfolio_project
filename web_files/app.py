@@ -7,7 +7,6 @@ from models.transaction import Transaction
 from models import storage
 from flask import abort,current_app, Flask, jsonify, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_user, login_required, logout_user, LoginManager
-# from werkzeug.security import check_password_hash
 
 
 app = Flask(__name__)
@@ -102,7 +101,7 @@ def login():
         else:
             login_user(user)
             storage.close()
-            flash("Logged In Successfull")
+            flash("LogIn Successful")
             return render_template('home_page.html')
 
 @app.route('/profile', methods=['GET'])
@@ -227,7 +226,7 @@ def create_wallet():
     wallet = storage.wallet(Wallet, phone_number)
     if wallet:
         storage.close()
-        flash('This phone number has already been used for a wallet')
+        flash('This phone number already exist')
         return redirect(url_for('dashboard'))
     else:
        # if current_user.has_wallet:
