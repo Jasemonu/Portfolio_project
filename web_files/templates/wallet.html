@@ -10,10 +10,10 @@
    <header>
         <div class="left-content">
             <h1>Wallet Dashboard</h1>
-	    <p>Welcome, {{current_user.first_name }} {{current_user.last_name}} : {% for item in current_user.wallet %} {{ item.phone_number }} {% endfor %}</p>
+	    <p>Welcome, {{ current_user.first_name }} {{ current_user.last_name }} : {% for item in current_user.wallet %} {{ item.phone_number }} {% endfor %}</p>
 			{% with messages = get_flashed_messages() %}
 			{% if messages %}
-			<div class='flash'>{{ messages[0] }} </div>
+			<div class='msg'>{{ messages[0] }} </div>
 			{% endif %}
 			{% endwith %}
         </div>
@@ -95,7 +95,11 @@
         <h2>Transfer To:</h2>
         <form id="walletform"  action="/transfer" method="POST" class="log">
 		  <label for="number">Wallet Number</label>
-		  <input type="text" id="wallet-num" name="Wallet_number" placeholder="Beneficiary Wallet number" required>
+		  <input type="text" id="wallet-num" name="wallet_number" placeholder="Beneficiary Wallet number" required>
+		  <label for="amount">Amount</label>
+		  <input type="number" id="wallet-num" name="amount" placeholder="Amount" required>
+		  <label for="amount">Description</label>
+		  <input type="text" id="wallet-num" name="description" placeholder="Description" required>
 		  <label for="pin">Pin</label>
           <input type="password" id="pin" name="pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="Enter your 4-digit PIN" required>
         
