@@ -1,0 +1,49 @@
+.currency-converter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+}
+
+.box {
+    display: flex;
+	flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+	border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 1px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.currency-from,
+.currency-to {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.currency-from select,
+.currency-to select {
+    padding: 5px;
+}
+
+.arrow {
+    font-size: 24px;
+    margin: 0 10px;
+}
+
+input[type="number"] {
+    padding: 5px;
+    font-size: 16px;
+	background-color: red;
+}
+input[type="number"]:hover {
+	background-color: blue;
+}
+
+.result {
+    font-size: 18px;
+    font-weight: bold;
+}
