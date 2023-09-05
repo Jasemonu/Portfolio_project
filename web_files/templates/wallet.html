@@ -13,7 +13,7 @@
 	    <p>Welcome, {{ current_user.first_name }} {{ current_user.last_name }} : {% for item in current_user.wallet %} {{ item.phone_number }} {% endfor %}</p>
 			{% with messages = get_flashed_messages() %}
 			{% if messages %}
-			<div class='msg'>{{ messages[0] }} </div>
+			<p class='flash'>{{ messages[0] }} </p>
 			{% endif %}
 			{% endwith %}
         </div>
@@ -93,7 +93,7 @@
      <div class="formwallet">
 			<span class="walletclose-button">&times;</span>
         <h2>Transfer To:</h2>
-        <form id="walletform"  action="/transfer" method="POST" class="log">
+        <form id="walletform"  action="/transfers/wallet" method="POST" class="log">
 		  <label for="number">Wallet Number</label>
 		  <input type="text" id="wallet-num" name="wallet_number" placeholder="Beneficiary Wallet number" required>
 		  <label for="amount">Amount</label>

@@ -125,13 +125,10 @@ def logout():
     flash("Logged Out")
     return redirect(url_for('index'))
 
-@app.route('/transfer', methods=['POST'], strict_slashes=False)
+@app.route('/transfers/wallet', methods=['GET', 'POST'], strict_slashes=False)
 @login_required
 def transfer():
     """User saving, transfer or taking money from account"""
-    if request.form.get('account_type') != 'Wallet':
-        flash('Not implemented')
-        return redirect(url_for('dashboard'))
     for item in current_user.wallet:
         wallet_id = item.id
         balance = item.balance
@@ -145,14 +142,10 @@ def transfer():
             'description': request.form.get('description'),
             'status': 'pending'
             }
-    
-    for k, v in data.items():
-        print('{} {}'.format(k, v))
         
     get_pin = request.form.get('pin')
     if int(get_pin) == pin:
         ret = transfer(data, balance, wallet_id)
-        print(ret)
         if ret == '1':
             flash('Transfer successfull')
             return redirect(url_for('dashboard'))
@@ -187,20 +180,19 @@ def deposit(cls, acb):
 def transfer(data, acb, id):
     """send money from wallet to another wallet"""
     reciever = storage.wallet(Wallet, data['recipient_account'])
+    if reciever.id == id:
+        return '3'
     if reciever:
         re_name = reciever.user.first_name +' ' + reciever.user.last_name
-        data['creciever_name'] = re_name
-        wallet = storage.all(Wallet)
-        for item in wallet.values():
-            if item.id == id:
-                wallet_obj = item
+        data['recipient_name'] = re_name
+        wallet_obj = storage.get(Wallet, id)
 
         if acb >= float(data['amount']):
             balance = acb - float(data['amount'])
             trans = Transaction(**data)
             storage.new(trans)
-            storage.save()
-            storage.update(wallet_obj, {'account_balnce': balance})
+            storage.update(wallet_obj, {'balance': balance})
+            storage.update(reciever, {'balance': trans.amount})
             storage.update(trans, {'status': 'approved'})
             return '1'
         else:
