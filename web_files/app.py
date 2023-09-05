@@ -136,27 +136,23 @@ def transfer():
         wallet_id = item.id
         balance = item.balance
         pin = item.pin
-    trans = {
+    data = {
             'user_id': current_user.id,
             'wallet_id': wallet_id,
-            'recipient_name': request.form.get('account_name'),
-            'recipient_account': request.form.get('account_number'),
+            'recipient_account': request.form.get('wallet_number'),
             'amount': request.form.get('amount'),
             'transaction_type': 'transfer',
-            'description': request.form.get('narration'),
+            'description': request.form.get('description'),
             'status': 'pending'
             }
-    """
-    for k, v in trans.items():
+    
+    for k, v in data.items():
         print('{} {}'.format(k, v))
-        """
+        
     get_pin = request.form.get('pin')
     if int(get_pin) == pin:
-        trans_obj = Transaction(**trans)
-        storage.new(trans_obj)
-        storage.save()
-
-        ret = transfer(trans_obj, balance, wallet_id)
+        ret = transfer(data, balance, wallet_id)
+        print(ret)
         if ret == '1':
             flash('Transfer successfull')
             return redirect(url_for('dashboard'))
@@ -188,21 +184,24 @@ def deposit(cls, acb):
         storage.update(cls, {'status': 'approved'})
     return 'widrawal'
 
-def transfer(cls, acb, id):
+def transfer(data, acb, id):
     """send money from wallet to another wallet"""
-    if  cls is None:
-        return '3'
-    reciever = storage.wallet(Wallet, cls.recipient_account)
+    reciever = storage.wallet(Wallet, data['recipient_account'])
     if reciever:
+        re_name = reciever.user.first_name +' ' + reciever.user.last_name
+        data['creciever_name'] = re_name
         wallet = storage.all(Wallet)
         for item in wallet.values():
             if item.id == id:
                 wallet_obj = item
 
-        if acb >= float(cls.amount):
-            balance = acb - float(cls.amount)
+        if acb >= float(data['amount']):
+            balance = acb - float(data['amount'])
+            trans = Transaction(**data)
+            storage.new(trans)
+            storage.save()
             storage.update(wallet_obj, {'account_balnce': balance})
-            storage.update(cls, {'status': 'approved'})
+            storage.update(trans, {'status': 'approved'})
             return '1'
         else:
             return '2'
