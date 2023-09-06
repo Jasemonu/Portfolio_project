@@ -8,11 +8,13 @@ const walletcloseButton = document.querySelector(".walletclose-button");
 openModalButton.addEventListener("click", () => {
   document.getElementById("bankform").style.display = "block";
  bankModal.style.display = "block";
+ walletModal.style.display = "none";
 });
 
 walletnumber.addEventListener("click", () => {
   document.getElementById("walletform").style.display = "block";
   walletModal.style.display ="block";
+  bankModal.style.display = "none";
 });
 
 closeButton.addEventListener("click", () => {

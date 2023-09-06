@@ -77,7 +77,7 @@ Thank you for choosing TransHub Gateway for your financial needs!
 ## Authors and Contributors
 
 - Samuel Zachariah Kwabena Affum ([GitHub](https://github.com/SamZec)) 
-- Rosemary Efebe ([GitHub](https://github.com/RosemaryEfebe247))
+- Rosemary Efebe ([GitHub](https://github.com/RosemaryEfebe247)(rozey247@gmail.com))
 - Joseph Asemonu ([Github](https://github.com/Jasemonu)) ([jasemonu@gmail.com](jasemonu@gmail.com))
 
 

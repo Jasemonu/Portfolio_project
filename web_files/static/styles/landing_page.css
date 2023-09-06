@@ -121,7 +121,6 @@ html, body {
 
 /* Exchange rates aside */
 .exchange-rates {
-   background-color: #FFF0F5;
    padding: 20px;
    border-radius: 5px;
    flex-basis: 30%;
@@ -139,7 +138,6 @@ html, body {
 
 .exchange-rate {
     margin-bottom: 10px;
-    color: #333;
 }
 
 /* Login Form Popup Styles */
