@@ -101,7 +101,7 @@ def login():
         else:
             login_user(user)
             storage.close()
-            flash("LogIn Successful")
+            flash("Login Successful")
             return render_template('home_page.html')
 
 @app.route('/profile', methods=['GET'])
