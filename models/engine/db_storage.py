@@ -25,9 +25,17 @@ class DBStorage:
     def __init__(self):
         """Instantiate a DBStorage object"""
         TRANSHUB_USER = getenv('TRANSHUB_USER')
+        if not TRANSHUB_USER:
+            TRANSHUB_USER = 'root'
         TRANSHUB_PWD = getenv('TRANSHUB_PWD')
+        if not TRANSHUB_PWD:
+            TRANSHUB_PWD = 'root'
         TRANSHUB_HOST = getenv('TRANSHUB_HOST')
+        if not TRANSHUB_HOST:
+            TRANSHUB_HOST = 'localhost'
         TRANSHUB_DB = getenv('TRANSHUB_DB')
+        if not TRANSHUB_DB:
+            TRANSHUB_DB = 'transhub'
         TRANSHUB_ENV = getenv('TRANSHUB_ENV')
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(TRANSHUB_USER,
