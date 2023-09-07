@@ -1,28 +1,210 @@
+/* Reset some default styles */
 body {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0px  50px 0px 50px;
     font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #6A5ACD, #FFF0F5);
+  }
+  
+  .sections {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin-top: 0;
+    padding: 0px 10px 0px 10px;
+    /*background-color: gainsboro;*/
+  }
+  
+  h1, p, button {
+      margin: 0;
+      padding: 0;
+  }
+  
+  /* Style for sections and columns */
+  .section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px;
+  }
+  
+  .column {
+      flex: 1;
+  }
+  
+  /* Styling for the hero area */
+  .hero {
+      background-color: #f2f2f2;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      height: 150px;
+   
+  }
+  
+  .column1{
+      margin-top: auto;
+  }
+
+  .hero1 {
+    margin-top: auto;
+    float: right;
+    width: auto;
+    height: auto;
+  }
+  .hero h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      text-align: center;
+  }
+  
+  .hero p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      text-align: center;
+  }
+  
+  .cta-button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+   }
+  .cta-button {
+      display: block;
+      margin: 0 auto;
+  }
+  /* Styling for the overlapping images */
+  .image-container1 {
+      margin-left: 50%;
+      margin-top: 110px;
+      margin-bottom: 0;
+              
+  }
+  
+  .image-container2 {
+      margin-left: 45%;
+      margin-top: 60px;
+      margin-bottom: 60px;
+      border-color: solid 5px red;
+      
+  }
+  
+  .coin {
+      position: absolute;
+      margin-left: -200px;
+      margin-top: -80px;
+      z-index: 0;
+      width: 250px;
+      height: 150px;      
+      border-radius: 5%;
+      box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+   }
+  
+  .card1 {
+      position: relative;
+      margin-right: -200px;
+      border-radius: 5%;
+      width: 250px;
+      height: 150px;
+      box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+   }
+  
+   .image4 {
+    position: absolute;
+    margin-left: 0;
+    margin-top: 0px;
+    z-index: 0;
+    width: 250px;
+    height: 150px;
+    border-radius: 5%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+ }
+
+ .image5 {
+    position: relative;
+    margin-left: -200px;
+    margin-top: -80px;
+    z-index: 0;
+    width: 250px;
+    height: 150px;
+    border-radius: 5%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+ }
+  /* Styling for the text area */
+  .text-area {
+      background-color: #f2f2f2;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      width: 80%; /* Adjust the width as needed */
+      margin: auto;
+   }
+  
+  .text-area h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      text-align: center;
+  }
+  
+  .text-area p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      text-align: center;
+  }
+
+  /* Media Query for smaller screens */
+@media (max-width: 768px) {
+    body {
+        padding: 0px 20px 0px 20px;
+    }
+    .sections {
+        padding: 0px 20px 0px 20px;
+    }
+    .hero h1 {
+        font-size: 20px; /* Decrease the font size for smaller screens */
+    }
+    .hero p {
+        font-size: 14px; /* Decrease the font size for smaller screens */
+    }
+    .coin,
+    .card1,
+    .image4,
+    .image5 {
+        width: 50%; /* Set the image width to 50% of the container */
+        height: auto; /* Maintain aspect ratio */
+    }
+}
+/* Media Query for even smaller screens */
+@media (max-width: 480px) {
+    body {
+        padding: 0px 10px 0px 10px;
+    }
+    .sections {
+        padding: 0px 10px 0px 10px;
+    }
+    /* Add more responsive styles as needed */
 }
 
+/* css for the old landing page */
 html, body {
     height: 100%;
 }
 
+.top-section {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #6A5ACD, #FFF0F5);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
 .navbar {
     background-color: #333;
-    /* overflow: hidden; */
     position: sticky;
     top: 0;
     z-index: 100;
 }
-
 .navbar a {
     float: right;
     display: block;
-   /* color: white; */
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -51,24 +233,24 @@ html, body {
     align-items: flex-start;
     margin: 0 20px;
 }
-.call-to-action {
+.call-to-action1 {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    margin-top: 180px;
+    margin-top: 160px;
     text-align: left;
-    margin-left: 100px;
+    margin-left: -40px;
     flex: 1;
 }
 
-.call-to-action p {
+.call-to-action1 p {
     margin: 5px 0;
     color: #FFFFFF;
 }
 
-.call-to-action h1 .word2,
-.call-to-action h1 .word1 {
+.call-to-action1 h1 .word2,
+.call-to-action1 h1 .word1 {
     color: #ffffff;
 }
 
@@ -87,10 +269,12 @@ html, body {
 }
 
 .signup-button {
-    background-color: white;
+    background-color: #f5f5f5;
     color: black;
+    /* color: white; */
 }
- .login-button:hover, .signup-button:hover {
+
+.login-button:hover, .signup-button:hover {
      background-color: #0056b3; /* Change color on hover */
      color: #fff; /* Change color on hover */
 }
@@ -116,11 +300,11 @@ html, body {
 
 .logo:hover {
     background-color: #ddd;
-    color: black;
+    color: #000;
 }
-
 /* Exchange rates aside */
 .exchange-rates {
+   background-color: #FFF0F5;
    padding: 20px;
    border-radius: 5px;
    flex-basis: 30%;
@@ -128,7 +312,7 @@ html, body {
    flex-direction: column;
    align-items: flex-start; 
    margin-left: auto; 
-   margin-top: 30px
+   margin-top: 100px
   /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);       */
 }
 
@@ -138,6 +322,7 @@ html, body {
 
 .exchange-rate {
     margin-bottom: 10px;
+    color: #333;
 }
 
 /* Login Form Popup Styles */
@@ -149,7 +334,9 @@ html, body {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: whitesmoke;
+    /*background-color: rgba(0, 0, 0, 0.4); */
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
 
 .modal-content {
@@ -180,11 +367,6 @@ html, body {
 form {
     display: flex;
     flex-direction: column;
-}
-
-.sign {
-    height: 500px;
-    overflow-y: auto;
 }
 
 label {
@@ -218,7 +400,6 @@ button.login-button:hover {
     margin: 5% auto;
     padding: 10px;
     border: 1px solid #888;
-    width: 40%; 
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
@@ -305,9 +486,3 @@ button.login-button:hover {
         text-align: center;
     }
 }
-.flash {
-	padding-left: 10px;
-	color: #def;
-}
-
-

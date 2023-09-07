@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="landing_page1.css">
+    <title>Transhub Gateway</title>
+</head>
+<body> 
+ <section class="top-section">
+    <div class="navbar">
+        <a href="#" class="logo">TransHub</a>
+        <a href="#" class="login-button">Login</a>
+        <a href="#" class="signup-button">Sign Up</a>
+        <a href="#" class="btn">Contact Us</a>
+        <a href="#" class="btn">About</a>
+    </div>   
+    <div class="layout-container">
+        <div class="call-to-action1">
+            <h1>
+                <span class="word2">WELCOME</span><span> TO TRANSHUB</span><br/>
+                <span class="word1">GATEWAY</span>
+            </h1>
+            <p>This platform is designed to facilitate financial transactions.</p>
+            <p>in various currencies, conveniently and securely.</p>
+            <div class="button-container">
+                <a href="#" class="login-button login-button1">Login</a>
+                <a href="#" class="signup-button signup-button1">Sign Up</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+    <section class="sections">
+    <!-- Login Form Popup -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeLoginModal">&times;</span>
+            <h2>Login</h2>
+            <form action="" method="get">
+                <label for="username">Email:</label>
+                <input type="text" id="username" name="username" placeholder="Enter Your Email" autofocus required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter Your Password" autofocus required>
+                <button type="submit" class="login-button">Login</button>
+            </form>
+        </div>
+    </div>
+    
+    <section class="section column1">
+        <div class="column">
+            <div class="hero hero1">
+                <h1>Why Choose Us?</h1>
+                <ul>
+                    <li><strong>Reliability:</strong> We take security and reliability seriously. Your financial data is protected by state-of-the-art encryption and security measures, ensuring your peace of mind.</li>
+                    <li><strong>Innovation:</strong> We stay at the forefront of fintech innovation, constantly updating our services to meet your evolving needs.</li>
+                    <li><strong>Customer-Centric Approach:</strong> Your satisfaction is our top priority. Our dedicated support team is here to assist you every step of the way.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="column">
+            <div class="image-container1">
+                <img src="coin.jpg" alt="Coin" class="coin">
+                <img src="card1.jpg" alt="Card1" class="card1">
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="column">
+            <div class="image-container2">
+                <img src="card.jpg" alt="Image 4" class="image4">
+                <img src="card1.jpg" alt="Image 5" class="image5">
+            </div>
+        </div>
+        <div class="column">
+            <div class="text-area">
+                <h2>Our Services</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum justo eget.</p>
+                <button class="cta-button">Get Started</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="column">
+            <div class="hero">
+                <h1>OVERVIEW</h1>
+                <p>TransHub Gateway is a revolutionary fintech application designed to simplify financial transactions and management for individuals and businesses. Our platform offers a wide range of features to make financial operations efficient, secure, and tailored to your unique needs. Whether you're an individual seeking personal finance management or a business aiming for growth, TransHub Gateway has you covered.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="text-area">
+            <h2>About Us</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum justo eget.</p>
+            <button class="cta-button">Contact Us</button>
+        </div>
+    </section>
+           <!-- Sign Up Form Popup -->
+           <div id="signupModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeSignupModal">&times;</span>
+                <h2>Sign Up</h2>
+                <form>
+                    <div class="user-details">
+                        <div class="input-box">
+                            <span class="details">First Name</span>
+                            <input type="text" id="signupFirstName" name="signupFirstName" required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Last Name</span>
+                            <input type="text" id="signupLastName" name="signupLastName" required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Email</span>
+                            <input type="email" id="signupEmail" name="signupEmail" required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Phone Number</span>
+                            <input type="text" id="signupPhoneNumber" name="signupPhoneNumber" required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Password</span>
+                            <input type="password" id="signupPassword" name="signupPassword" required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Confirm Password</span>
+                            <input type="password" id="signupConfirmPassword" name="signupConfirmPassword" required>
+                        </div>
+                    </div>
+                    <div class="gender-details">
+                        <!-- ... (gender radio buttons) ... -->
+                        <span class="details">Gender</span>
+                        <div class="category">
+                            <div class="radio-option">
+                                <input type="radio" name="gender" id="male">
+                                <label for="male">Male</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="gender" id="female">
+                                <label for="female">Female</label>
+                            </div>
+                            <div class="radio-option">
+                            <input type="radio" name="gender" id="other">
+                            <label for="other">Prefer not to say</label>
+                    </div>
+                <div class="button">
+                    <button type="submit" class="signup-button">Register</button>
+            </div>
+            </div>
+        </div>
+ </section>
+     <!-- Footer -->
+     <div class="footer">
+        <p>&copy; 2023 TransHub Gateway. All rights reserved.</p>
+    </div>
+    <script src="landing_page1.js">    
+    </script
+</body>
+</html>

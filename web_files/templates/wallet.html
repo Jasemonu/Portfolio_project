@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wallet Dashboard</title>
 	<link rel="stylesheet" type="text/css" href="static/styles/wallet.css">
+	<link rel="stylesheet" type="text/css" href="static/styles/currency.css">
 </head>
 <body>
    <header>
@@ -41,10 +42,36 @@
 	    <div class="transaction">
 		<a href="#" class="link-format2">Deposit</a>
             </div>
-	   <div class="transaction">
-                 <a href="#" class="link-format2">Exchange Rates</a>
+	  <div class="transcurrency">
+          <div class="currency-converter">
+        <div class="box">
+            <div class="currency-from">
+                <select id="fromCurrency">
+                    <option value="USD">USD - US Dollar</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="GBP">GBP - Pound Sterling</option>
+					<option value="NGN">NGN - Nigerian Naira</option>
+					<option value="GHS">GHS - Ghana Cedi</option>
+                </select>
+                <span class="arrow">&#8594;</span>
             </div>
-	</div>
+            <input type="number" id="amount" placeholder="Enter amount">
+        </div>
+        <div class="box">
+            <div class="currency-to">
+                <select id="toCurrency">
+					<option value="USD">USD - US Dollar</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="GBP">GBP - Pound Sterling</option>
+                    <option value="NGN">NGN - Nigerian Naira</option>
+                    <option value="GHS">GHS - Ghana Cedi</option>
+                </select>
+                <span class="arrow">&#8595;</span>
+            </div>
+            <div id="convertedAmount" class="result">Converted amount: <span></span></div>
+        </div>
+    </div>    
+	  </div>
         <div class="transaction-list">
 		{% set trans_type = ['transfer', 'deposite'] %}
             <h2>Transaction History</h2>
@@ -66,7 +93,7 @@
     <div class="transfer">
 			<span class="close-button">&times;</span>
         <h2>Transfer To:</h2>
-        <form id="bankform"  action="/transfer" method="POST" class="log">
+        <form id="bankform" style="display: none;" action="/transfer" method="POST" class="log">
 			<label for="selectOption">Account Type</label>
             <select id="selectOption" name="account_type">
             <option value="option1">Ecobank</option>
@@ -93,13 +120,13 @@
      <div class="formwallet">
 			<span class="walletclose-button">&times;</span>
         <h2>Transfer To:</h2>
-        <form id="walletform"  action="/transfers/wallet" method="POST" class="log">
+        <form id="walletform" style="display: none;" action="/transfers/wallet" method="POST" class="log">
 		  <label for="number">Wallet Number</label>
 		  <input type="text" id="wallet-num" name="wallet_number" placeholder="Beneficiary Wallet number" required>
 		  <label for="amount">Amount</label>
-		  <input type="number" id="wallet-num" name="amount" placeholder="Amount" required>
+		  <input type="text" id="wallet-amount" name="amount" placeholder="Enter Amount" required>
 		  <label for="amount">Description</label>
-		  <input type="text" id="wallet-num" name="description" placeholder="Description" required>
+		  <input type="text" id="wallet-desc" name="description" placeholder="Description" required>
 		  <label for="pin">Pin</label>
           <input type="password" id="pin" name="pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="Enter your 4-digit PIN" required>
         
@@ -108,5 +135,6 @@
       </div>
 	</div>
 	<script src="static/scripts/wallet.js"></script>
+	<script src="static/scripts/currency.js"></script>
 </body>
 </html>

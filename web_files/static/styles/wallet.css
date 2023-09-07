@@ -11,7 +11,6 @@
 			justify-content: space-between;
             align-items: center;
             padding: 1px 20px;
-	        position: sticky;
 	        top: 0;
         }
 		.left-content {
@@ -113,6 +112,11 @@
             justify-content: space-between;
             align-items: center;
         }
+		.transcurrency {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 2.5rem;
+		}
         .link-format1:hover, .link-format2:hover {
     		background-color: #0056b3; /* Change color on hover */
        		color: #fff;
@@ -162,9 +166,8 @@
 }
 
        .flash {
-	       background-color: #333;
 	       text-align: center;
-	       color: #def;
+	       color: #2196F3;
 	       font-size: 20px;
        }
 
