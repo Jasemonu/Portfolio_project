@@ -160,7 +160,7 @@ def transfer():
 def deposit(cls, acb):
     """top up user balance"""
     if cls is None:
-        return '3'
+        return '3' # for wallet does not exists
     wallet = storage.wallet(Wallet, cls.recipient_account)
     if cls.transaction_type == 'deposit':
         balance = acb + cls.amount
@@ -179,24 +179,47 @@ def deposit(cls, acb):
 def transfer(data, acb, id):
     """send money from wallet to another wallet"""
     receiver = storage.wallet(Wallet, data['recipient_account'])
+    # check if sender id is not same as receiver id
     if receiver.id == id:
+        # return 3 for wallet does ot exists
         return '3'
+    # check if receiver exists 
     if receiver:
         re_name = receiver.user.first_name +' ' + receiver.user.last_name
         data['recipient_name'] = re_name
         wallet_obj = storage.get(Wallet, id)
+        
+        for item in current_user.wallet:
+            s_wallet = item.phone_number
+        r_data = {
+                'user_id': receiver.user.id,
+                'wallet_id': receiver.id,
+                'sender_account': s_wallet,
+                'sender_name': current_user.first_name + ' ' + current_user.last_name,
+                'amount': '',
+                'transaction_type': 'credit',
+                'description': data.get('description'),
+                'status': 'pending'
+                }
 
+        # check if sender have enough balance then continue
         if acb >= float(data['amount']):
             balance = acb - float(data['amount'])
-            trans = Transaction(**data)
-            rec_balance = float(trans.amount) + receiver.balance
-            storage.new(trans)
+            s_trans = Transaction(**data)
+            r_data['amount'] = data['amount']
+            r_trans = Transaction(**r_data)
+            storage.new(s_trans)
+            storage.new(r_trans)
             storage.update(wallet_obj, {'balance': balance})
-            storage.update(receiver, {'balance': rec_balance})
-            storage.update(trans, {'status': 'approved'})
+            storage.update(receiver, {'balance': receiver.balance + float(r_trans.amount)})
+            storage.update(s_trans, {'status': 'approved'})
+            storage.update(r_trans, {'status': 'approved'})
+            # return 1 for trasaction successful
             return '1'
         else:
+            # return 2 if balance is not enough
             return '2'
+        # return 3 if receiver does not exists
     return '3'
 
 @app.route('/create-wallet', methods=['GET', 'POST'], strict_slashes=False)
