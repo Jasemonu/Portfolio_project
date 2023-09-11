@@ -73,19 +73,22 @@
     </div>    
 	  </div>
         <div class="transaction-list">
-		{% set trans_type = ['transfer', 'deposite'] %}
+		{% set trans_type = ['transfer', 'deposite', 'credit'] %}
+		{% set trans_status = ['pending', 'approved'] %}
             <h2>Transaction History</h2>
 	    {% for item in current_user.transactions %}
+	    {% if item.status == trans_status[1] %}
             <div class="transaction">
 		    {% if item.transaction_type == trans_type[0] %}
 		    <p>Transfered ${{ item.amount}} to {{ item.recipient_name }}</p>
 		    <p>{{ item.updated_at.strftime("%b / ""%d / ""%Y") }}</p>
 
-		    {% elif item.transaction_type == trans_type[1] %}
-		    <p>Deposited ${{ item.amount}} to your account</p>
+		    {% elif item.transaction_type == trans_type[2] %}
+		    <p>Received ${{ item.amount}} to your account from {{ item.sender_name }}</p>
 		    <p>{{ item.updated_at.strftime("%b / ""%d / ""%Y") }}</p>
 		    {% endif %}
             </div>
+	    {% endif %}
 	    {% endfor %}
         </div>
 		<!-- Bank form -->
