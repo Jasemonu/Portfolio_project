@@ -94,7 +94,7 @@ def login():
             return redirect(url_for('index'))
         get_password = check_password_hash(user.password, password)
     
-        if user is None or get_password is None:
+        if not get_password:
             storage.close()
             flash("Invalid email or password")
             return redirect(url_for('index'))
@@ -178,20 +178,21 @@ def deposit(cls, acb):
 
 def transfer(data, acb, id):
     """send money from wallet to another wallet"""
-    reciever = storage.wallet(Wallet, data['recipient_account'])
-    if reciever.id == id:
+    receiver = storage.wallet(Wallet, data['recipient_account'])
+    if receiver.id == id:
         return '3'
-    if reciever:
-        re_name = reciever.user.first_name +' ' + reciever.user.last_name
+    if receiver:
+        re_name = receiver.user.first_name +' ' + receiver.user.last_name
         data['recipient_name'] = re_name
         wallet_obj = storage.get(Wallet, id)
 
         if acb >= float(data['amount']):
             balance = acb - float(data['amount'])
             trans = Transaction(**data)
+            rec_balance = float(trans.amount) + receiver.balance
             storage.new(trans)
             storage.update(wallet_obj, {'balance': balance})
-            storage.update(reciever, {'balance': trans.amount})
+            storage.update(receiver, {'balance': rec_balance})
             storage.update(trans, {'status': 'approved'})
             return '1'
         else:
