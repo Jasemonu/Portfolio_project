@@ -8,17 +8,22 @@ from models import storage
 from flask import abort,current_app, Flask, jsonify, render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_user, login_required, logout_user, LoginManager
 
-
+# Instantiation of app
 app = Flask(__name__)
-""" A key to safely manage sessions for the flask app"""
+
+# A key to safely manage sessions for the flask app
 app.secret_key = "transhub_rosemary_joseph_samuel"
 
+# Instatiation of Login Manger with instance of our app
 login_manager = LoginManager(app)
-"""The login_required decorator redirects here"""
+
+# The login_required decorator redirects here
 login_manager.login_view = 'login'
 
+# Creating a session and re-loading data from database
 storage.reload()
 
+# default route
 @app.route('/', methods=['GET'], strict_slashes=False)
 def index():
     """
@@ -26,14 +31,14 @@ def index():
     """
     return render_template("landing_page.html")
 
-
+# Home page route
 @app.route('/home', methods=['GET', 'POST'], strict_slashes=False)
 def home():
     """Renders the user home page"""
     return render_template('home_page.html')
 
 
-""" User Signup endpoint"""
+# User Signup endpoint
 @app.route('/signup', methods=["POST"], strict_slashes=False)
 def sign_up():
     """Sign user up """
@@ -42,8 +47,8 @@ def sign_up():
         if item.email_address == request.form.get('email_address'):
             flash('Email already exists')
             return redirect(url_for('index'))
-
-    n_user = {
+    # creating new user dictionary from form attributes
+    new_user = {
         'first_name': request.form.get('first_name'),
         'last_name': request.form.get('last_name'),
         'email_address': request.form.get('email_address'),
@@ -53,28 +58,36 @@ def sign_up():
         'password': ''
         }
 
+    # check if password is same in comfirm password
     if request.form.get('password') == request.form.get('confirm_password'):
         get_password = request.form.get('password')
+        # hash password before saving in database
         hashed_password = generate_password_hash(get_password, method='MD5')
-        n_user['password'] = hashed_password
-        userObject = User(**n_user)
+        new_user['password'] = hashed_password
+        # create the user 
+        userObject = User(**new_user)
+        # add to session
         storage.new(userObject)
+        # commit to database
         storage.save()
-
+        # return to landing page and flash Signup successfull
         flash("Signup successfull please Login")
         return redirect(url_for('index'))
+    # if password mismatch, return user to landing page 
     flash('Please check password and Try agian')
     return redirect(url_for('index'))
 
-""" User Login Endpoint"""
+# Load user details base on id passed to load_user
 @login_manager.user_loader
 def load_user(user_id):
-    # Load and return the user object based on the user_id
-    # This function is required by Flask-Login to retrieve users from the ID
-    # It should return the user object or None if the user doesn't exist
+    """
+    Load and return the user object based on the user_id
+    This function is required by Flask-Login to retrieve users from the ID
+    It should return the user object or None if the user doesn't exist
+     """
     return storage.get(User, user_id)
 
-
+# Log in endpoint
 @app.route('/login', methods=['GET', 'POST'], strict_slashes=False)
 def login():
     """
@@ -85,9 +98,8 @@ def login():
         email_address = request.form['email_address']
         password = request.form['password']
 
-        """
-        The session searches for the email address of the user
-        to check if its in the database"""
+        # The session searches for the email address of the user
+        # to check if its in the database
         user = storage.get_email(User, email_address)
         if user is None:
             flash("User doesn't exist")
@@ -103,7 +115,7 @@ def login():
             storage.close()
             flash("Login Successful")
             return render_template('home_page.html')
-
+# user profile endpoint
 @app.route('/profile', methods=['GET'])
 @login_required
 def profile():
@@ -115,7 +127,7 @@ def profile():
 
     return render_template('user_login.html', user=current_user)
 
-
+# log out endpoint
 @app.route('/logout', methods=['GET'])
 @login_required
 def logout():
@@ -123,7 +135,7 @@ def logout():
     logout_user()
     flash("Logged Out")
     return redirect(url_for('index'))
-
+# transfer enpoint
 @app.route('/transfers/wallet', methods=['GET', 'POST'], strict_slashes=False)
 @login_required
 def transfer():
@@ -156,7 +168,7 @@ def transfer():
             return redirect(url_for('dashboard'))
     flash('Invalid PIN number')
     return redirect(url_for('dashboard'))
-
+# funtion to handle deposite enpoint
 def deposit(cls, acb):
     """top up user balance"""
     if cls is None:
@@ -175,7 +187,7 @@ def deposit(cls, acb):
         storage.update(wallet, {'account_balnce': balance})
         storage.update(cls, {'status': 'approved'})
     return 'widrawal'
-
+# function to call for transfer endpiont
 def transfer(data, acb, id):
     """send money from wallet to another wallet"""
     receiver = storage.wallet(Wallet, data['recipient_account'])
@@ -185,17 +197,23 @@ def transfer(data, acb, id):
         return '3'
     # check if receiver exists 
     if receiver:
-        re_name = receiver.user.first_name +' ' + receiver.user.last_name
-        data['recipient_name'] = re_name
+        # get receiver full name
+        name = receiver.user.first_name +' ' + receiver.user.last_name
+        # update receiver name in data
+        data['recipient_name'] = name
+        # get sender wallet base on id
         wallet_obj = storage.get(Wallet, id)
-        
+        # loop through user wallet relationship to get wallet infomation
         for item in current_user.wallet:
-            s_wallet = item.phone_number
-        r_data = {
+            sender_account = item.phone_number
+        # sender full name
+        sender_name = current_user.first_name + ' ' + current_user.last_name
+        # receiver transaction details
+        receiver_data = {
                 'user_id': receiver.user.id,
                 'wallet_id': receiver.id,
-                'sender_account': s_wallet,
-                'sender_name': current_user.first_name + ' ' + current_user.last_name,
+                'sender_account': sender_account,
+                'sender_name': sender_name,
                 'amount': '',
                 'transaction_type': 'credit',
                 'description': data.get('description'),
@@ -204,16 +222,24 @@ def transfer(data, acb, id):
 
         # check if sender have enough balance then continue
         if acb >= float(data['amount']):
+            # subtract the transaction amount from balance
             balance = acb - float(data['amount'])
-            s_trans = Transaction(**data)
-            r_data['amount'] = data['amount']
-            r_trans = Transaction(**r_data)
-            storage.new(s_trans)
-            storage.new(r_trans)
+            # sender transaction object
+            sender_trans = Transaction(**data)
+            # receiver data with the amount debited
+            receiver_data['amount'] = data['amount']
+            # receiver transaction object
+            receiver_trans = Transaction(**receiver_data)
+            # credit receiver with the transaction amount
+            receiver_balance = receiver.balance + float(receiver_trans.amount)
+            # add objects to session
+            storage.new(sender_trans)
+            storage.new(receiver_trans)
+            # update the objects in database and save
             storage.update(wallet_obj, {'balance': balance})
-            storage.update(receiver, {'balance': receiver.balance + float(r_trans.amount)})
-            storage.update(s_trans, {'status': 'approved'})
-            storage.update(r_trans, {'status': 'approved'})
+            storage.update(receiver, {'balance': receiver_balance})
+            storage.update(sender_trans, {'status': 'approved'})
+            storage.update(receiver_trans, {'status': 'approved'})
             # return 1 for trasaction successful
             return '1'
         else:
@@ -221,7 +247,7 @@ def transfer(data, acb, id):
             return '2'
         # return 3 if receiver does not exists
     return '3'
-
+# wallet creation endpoint
 @app.route('/create-wallet', methods=['GET', 'POST'], strict_slashes=False)
 def create_wallet():
     """Retrieve data from the request"""
@@ -274,7 +300,7 @@ def create_wallet():
         flash('Wallet created successfully.', 'success')
         return redirect(url_for('dashboard'))
 
-
+# wallet dashboard
 @app.route('/dashboard', strict_slashes=False)
 def dashboard():
     """This ensures that users without wallet cannot access the dashboard page"""
@@ -284,12 +310,12 @@ def dashboard():
     flash('Please you have no wallet, kindly create one')
     return redirect(url_for('home'))
 
-
+# close data on exit from app
 @app.teardown_appcontext
 def tear_down(Exception):
      """method to handle teardown"""
      storage.close()
-
+# error handler
 @app.errorhandler(404)
 def not_found_error(error):
     """
@@ -300,13 +326,13 @@ def not_found_error(error):
     }
     return jsonify(response), 404
 
-
+# error handler
 @app.errorhandler(400)
 def invalid_login(error):
     response = "Invalid email or password"
     return jsonify(response), 400
 
-
+# app start from here
 if __name__ == "__main__":
 
     app.debug = True
