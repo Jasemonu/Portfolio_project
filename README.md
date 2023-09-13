@@ -20,7 +20,7 @@
 
 TransHub Gateway is a revolutionary fintech application designed to simplify financial transactions and management for individuals and businesses. Our platform offers a wide range of features to make financial operations efficient, secure, and tailored to your unique needs. Whether you're an individual seeking personal finance management or a business aiming for growth, TransHub Gateway has you covered.
 
-- Features
+### Features
 
 * **Secure Transactions:** We take your financial security seriously. All transactions are protected with state-of-the-art encryption and security measures.
 * **Innovation:** We stay at the forefront of fintech innovation, providing cutting-edge solutions to meet evolving financial needs. 
