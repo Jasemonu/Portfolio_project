@@ -23,6 +23,7 @@ login_manager.login_view = 'login'
 # Creating a session and re-loading data from database
 storage.reload()
 
+
 # default route
 @app.route('/', methods=['GET'], strict_slashes=False)
 def index():
@@ -115,6 +116,8 @@ def login():
             storage.close()
             flash("Login Successful")
             return render_template('home_page.html')
+
+
 # user profile endpoint
 @app.route('/profile', methods=['GET'])
 @login_required
@@ -135,6 +138,8 @@ def logout():
     logout_user()
     flash("Logged Out")
     return redirect(url_for('index'))
+
+
 # transfer enpoint
 @app.route('/transfers/wallet', methods=['GET', 'POST'], strict_slashes=False)
 @login_required
@@ -156,11 +161,11 @@ def transfer():
         
     get_pin = request.form.get('pin')
     if int(get_pin) == pin:
-        ret = transfer(data, balance, wallet_id)
-        if ret == '1':
+        status = transfer(data, balance, wallet_id)
+        if status == '1':
             flash('Transfer successfull')
             return redirect(url_for('dashboard'))
-        elif ret == '2':
+        elif status == '2':
             flash('Insufficient Balance')
             return redirect(url_for('dashboard'))
         else:
@@ -168,25 +173,8 @@ def transfer():
             return redirect(url_for('dashboard'))
     flash('Invalid PIN number')
     return redirect(url_for('dashboard'))
-# funtion to handle deposite enpoint
-def deposit(cls, acb):
-    """top up user balance"""
-    if cls is None:
-        return '3' # for wallet does not exists
-    wallet = storage.wallet(Wallet, cls.recipient_account)
-    if cls.transaction_type == 'deposit':
-        balance = acb + cls.amount
-        storage.update(wallet, {'account_balnce': balance})
-        storage.update(cls, {'status': 'approved'})
-        return 'deposit'
-    if cls.transaction_type == 'widrawal':
 
-        if cls.amount > float(acb):
-            return '2'
-        balance = acb - csl.amount
-        storage.update(wallet, {'account_balnce': balance})
-        storage.update(cls, {'status': 'approved'})
-    return 'widrawal'
+
 # function to call for transfer endpiont
 def transfer(data, acb, id):
     """send money from wallet to another wallet"""
@@ -247,6 +235,8 @@ def transfer(data, acb, id):
             return '2'
         # return 3 if receiver does not exists
     return '3'
+
+
 # wallet creation endpoint
 @app.route('/create-wallet', methods=['GET', 'POST'], strict_slashes=False)
 def create_wallet():
@@ -300,6 +290,7 @@ def create_wallet():
         flash('Wallet created successfully.', 'success')
         return redirect(url_for('dashboard'))
 
+
 # wallet dashboard
 @app.route('/dashboard', strict_slashes=False)
 def dashboard():
@@ -325,6 +316,7 @@ def not_found_error(error):
         "error": "Not found"
     }
     return jsonify(response), 404
+
 
 # error handler
 @app.errorhandler(400)
