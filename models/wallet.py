@@ -17,7 +17,7 @@ class Wallet(BaseModel, Base):
     balance = Column(Float, default=0.00)
     user = relationship("User", back_populates="wallet")
     transactions = relationship('Transaction', back_populates='wallet',
-                                 cascade='all, delete')
+                                cascade='all, delete')
 
     def __init__(self, *args, **kwargs):
         """initializes wallet"""

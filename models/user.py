@@ -19,7 +19,7 @@ class User(BaseModel, UserMixin, Base):
     wallet = relationship('Wallet', back_populates='user',
                           cascade='all, delete')
     transactions = relationship('Transaction', back_populates='user',
-                                 cascade='all, delete')
+                                cascade='all, delete')
 
     def __init__(self, *args, **kwargs):
         """Initializes user"""
