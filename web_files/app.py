@@ -63,7 +63,7 @@ def sign_up():
     if request.form.get('password') == request.form.get('confirm_password'):
         get_password = request.form.get('password')
         # hash password before saving in database
-        hashed_password = generate_password_hash(get_password, method='MD5')
+        hashed_password = generate_password_hash(get_password, method='scrypt')
         new_user['password'] = hashed_password
         # create the user 
         userObject = User(**new_user)
@@ -178,7 +178,10 @@ def transfer():
 # function to call for transfer endpiont
 def transfer(data, acb, id):
     """send money from wallet to another wallet"""
-    receiver = storage.wallet(Wallet, data['recipient_account'])
+    try:
+        receiver = storage.wallet(Wallet, data['recipient_account'])
+    except Exception:
+        return '3'
     # check if sender id is not same as receiver id
     if receiver.id == id:
         # return 3 for wallet does ot exists
