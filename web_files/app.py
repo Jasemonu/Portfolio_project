@@ -178,16 +178,14 @@ def transfer():
 # function to call for transfer endpiont
 def transfer(data, acb, id):
     """send money from wallet to another wallet"""
-    try:
-        receiver = storage.wallet(Wallet, data['recipient_account'])
-    except Exception:
-        return '3'
-    # check if sender id is not same as receiver id
-    if receiver.id == id:
-        # return 3 for wallet does ot exists
-        return '3'
-    # check if receiver exists 
+    # get receiver wallet details
+    receiver = storage.wallet(Wallet, data['recipient_account'])
+    # check if reciever exists
     if receiver:
+        # check if sender id is not same as receiver id
+        if receiver.id == id:
+            # return 3 for wallet does ot exists
+            return '3'
         # get receiver full name
         name = receiver.user.first_name +' ' + receiver.user.last_name
         # update receiver name in data
